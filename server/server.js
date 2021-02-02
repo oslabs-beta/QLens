@@ -3,7 +3,7 @@ const path = require('path')
 const app = express()
 
 app.use(express.json())
-app.use('/build', express.static(path.join(__dirname, '../build')));
+app.use('/dist', express.static(path.join(__dirname, '../dist')));
 
 
 app.get('/', (req, res) => {
