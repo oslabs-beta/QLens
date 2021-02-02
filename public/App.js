@@ -1,11 +1,14 @@
+// Import dependencies
 import React from 'react'
 
-const App = () => {
-  return (
-    <div>
-      <h1> Steven is awesome and is loved by everyone </h1>
-    </div>
-  )
-}
+// Create main App component
+const App = () => (
+  <div>
+    <h1>Hello, electron!</h1>
 
-export default App;
+    <p>Let's start building your awesome desktop app with electron and React!</p>
+  </div>
+)
+
+// Export the App component
+export default App
