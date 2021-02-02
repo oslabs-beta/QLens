@@ -4,7 +4,7 @@ import React from 'react'
 import { render } from 'react-dom'
 
 // Import main App component
-import App from 'App.js'
+import App from './App.js'
 
 // // Import CSS stylesheet
 // import './assets/css/app.css'

@@ -1,53 +1,53 @@
-const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const path = require('path');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  mode: process.env.NODE_ENV,
-  entry: './public/index.js',
-  target: 'electron-renderer',
-  output: {
-    path: path.resolve(__dirname, '/build'),
-    filename: 'electron.js'
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './public/index.html'
-    })
-  ],
-  devServer: {
-    publicPath: '/build/',
-    proxy: {
-      '/api': 'http://localhost:3000',
-    }
-  },
-  node: {global: true},
-  module: {
-    rules: [
-      {
-        test: /\.jsx?/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
-        ],
-      },
-    ]
-  }
-}
+// module.exports = {
+//   mode: process.env.NODE_ENV,
+//   entry: './public/index.js',
+//   target: 'electron-renderer',
+//   output: {
+//     path: path.resolve(__dirname, '/build'),
+//     filename: 'electron.js'
+//   },
+//   plugins: [
+//     new HtmlWebpackPlugin({
+//       template: './public/index.html'
+//     })
+//   ],
+//   devServer: {
+//     publicPath: '/build/',
+//     proxy: {
+//       '/api': 'http://localhost:3000',
+//     }
+//   },
+//   node: {global: true},
+//   module: {
+//     rules: [
+//       {
+//         test: /\.jsx?/,
+//         exclude: /node_modules/,
+//         use: {
+//           loader: 'babel-loader',
+//           options: {
+//             presets: ['@babel/preset-env', '@babel/preset-react']
+//           }
+//         }
+//       },
+//       {
+//         test: /\.s[ac]ss$/i,
+//         use: [
+//           // Creates `style` nodes from JS strings
+//           process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : "style-loader",
+//           // Translates CSS into CommonJS
+//           "css-loader",
+//           // Compiles Sass to CSS
+//           "sass-loader",
+//         ],
+//       },
+//     ]
+//   }
+// }
 
 
 // "test": "echo \"Error: no test specified\" && exit 1",
