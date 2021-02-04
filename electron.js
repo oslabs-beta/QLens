@@ -1,11 +1,33 @@
 // main.js
 
 'use strict'
+///////////////////////////////////////////////////////
+// const express = require('express')
+// const expressApp = express()
+// const cors = require("cors");
+// // Connect to mongodb
+// const MongoClient = require("mongodb").MongoClient;
+// // Executing terminal commands using JS
+// const { exec } = require("child_process");
+///////////////////////////////////////////////////////
+
+// // Test express -------------
+// expressApp.use(cors())
+// expressApp.use(express.json())
+// expressApp.post('/getURI', (req, res, next) => {
+//   console.log(req.body)
+//   res.status(200).json(req.body)
+// })
+
+// expressApp.listen(3000, () => console.log('app workingon port 3000'))
+
+// --------------------------
 
 // Import parts of electron to use
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
+const server = require('./server/server')
 
 // Add React extension for development
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
@@ -28,6 +50,8 @@ if (process.platform === 'win32') {
   app.commandLine.appendSwitch('high-dpi-support', 'true')
   app.commandLine.appendSwitch('force-device-scale-factor', '1')
 }
+
+
 
 function createWindow() {
   // Create the browser window.
