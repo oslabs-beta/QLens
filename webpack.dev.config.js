@@ -7,6 +7,7 @@ const { spawn } = require('child_process')
 const defaultInclude = path.resolve(__dirname, 'src')
 
 module.exports = {
+ 
   module: {
     rules: [
       {
@@ -40,6 +41,9 @@ module.exports = {
   ],
   devtool: 'cheap-source-map',
   devServer: {
+    // proxy: {
+    //   '/getURI': 'localhost:3000',
+    // },
     contentBase: path.resolve(__dirname, 'dist'),
     stats: {
       colors: true,
