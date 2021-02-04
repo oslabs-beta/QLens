@@ -9,7 +9,7 @@ const { exec } = require("child_process");
 exports.createMongoSchema = (req, res, next) => {
     console.log(req.body.val);
  let userURI = req.body.val;
- 
+
 // Connect to mongodb
  MongoClient.connect(userURI)
  .then(() => {
