@@ -43,6 +43,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "ace-builds": "^1.4.12",
     "cors": "^2.8.5",
     "electron-builder": "^22.9.1",
     "electron-is-dev": "^1.2.0",
@@ -50,6 +51,7 @@
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.14",
     "react": "^17.0.1",
+    "react-ace": "^9.3.0",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "wait-on": "^5.2.1"
