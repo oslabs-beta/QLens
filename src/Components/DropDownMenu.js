@@ -13,22 +13,55 @@ const DropDownMenu = ({schemaData}) => {
     // when clicked it will add specific schema to send to backend
 
     // send data to state
-    const schemaNames = Object.keys(schemaData);
+    const schemaNames = Object.keys(schemaData);// [users, conversations]
 
-    let currentName = e.target.name;
+    let clickedSchema = e.target.name;
+
     for (let i = 0; i < schemaNames.length; i+=1) {
-      if (schemaNames[i] === currentName && e.target.checked === true) {
+      if (schemaNames[i] === clickedSchema && e.target.checked === true) {
         // setClicked([...clicked, {[currentName]: schemaData[currentName]}])
-        setClicked(clicked => [...clicked, {[currentName]: schemaData[currentName]}])
-      } else if (schemaNames[i] === currentName && e.target.checked === false) {
-        console.log('hiiii')
-        console.log(clicked.filter(item => item === schemaNames[i]))
-        setClicked(clicked.filter(item => item === schemaNames[i]));
-      }
-
-
+        setClicked([...clicked, {[clickedSchema]: schemaData[clickedSchema]}])
+     }
+     else if (schemaNames[i] === clickedSchema && e.target.checked === false) {
+      console.log('hiiii')
+      setClicked(clicked.filter((item) => {
+        Object.keys(item).join('') !== clickedSchema // user = conversions
+        console.log('this is the item[clickedSchema] =====', item[clickedSchema])
+        console.log('item is ', item)
+        console.log('clickedSchema is ', clickedSchema)
+        console.log('schemaNames[i] is ', schemaNames[i])
+      }));
+    }
 
     }
+
+
+    // check if clickedSchema is truthy and target.checked is false
+    // we can filter the clicked array and change the state to be everything except the schemaData[clickedSchema]
+
+
+//The filter() method creates a new array with all elements that pass the test implemented by the provided function.
+
+  // array.reduce ( (resultArr, currVal) => {
+  //   if currVal === clickedSchema {
+  //     resultArr.push(clickedSchema)
+  //   }
+  // }, [] )
+
+      // if (clickedSchema && e.target.checked === false) {
+      //   setClicked(clicked.reduce((resultArr, currentVal => {
+      //     if (currentVal !== clickedSchema) {
+      //       resultArr.push(clickedSchema)
+      //     }
+      //     //item[conversations] = object
+      //      console.log('In the new if statement')
+      //      console.log('item ====> ', item);
+      //     })
+
+      //     )
+      //     console.log('clicked array being filtered', clicked)
+      // }
+
     // console.log('clicked', clicked);
     // console.log(schemaData.users);
     // if the box is unchecked
@@ -37,7 +70,7 @@ const DropDownMenu = ({schemaData}) => {
   }
 
   const sendSchemas = (e) => {
-    console.log(clicked);
+    console.log('clicked array',clicked);
   }
 
 
