@@ -8,6 +8,8 @@ const MongoClient = require("mongodb").MongoClient;
 // Executing terminal commands using JS
 const { exec } = require("child_process");
 
+
+
 const mongoSchemaController = require('./controllers/mongoSchemaController')
 
 console.log("SERVER RUNNING");
@@ -22,6 +24,13 @@ app.post("/getURI", mongoSchemaController.createMongoSchema, (req, res, next) =>
       fs.unlinkSync(path.join(__dirname, '../schema.json'))
   }, 2000)
 })
+
+
+const {graphqlHTTP} = require('express-graphql')
+const schema = require('./schema')
+
+app.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
+
 
 // app.use('/dist', express.static(path.join(__dirname, '../dist')));
 
