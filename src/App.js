@@ -9,7 +9,6 @@ const App = () => (
     <h1>Hello, Electron!</h1>
     <p>Our Electron App is working!!!</p>
     <MongoDBURI />
-    <DropDownMenu />
   </div>
 )
 
