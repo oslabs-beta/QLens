@@ -40,11 +40,11 @@ const DropDownMenu = ({schemaData, uriData}) => {
     //sending obj data to backend
     let selectedSchemas = {};
     for(let i = 0; i < clicked.length; i+=1) {
-      selectedSchemas[clicked[i]] = schemaData[clicked[i]]; 
+      selectedSchemas[clicked[i]] = schemaData[clicked[i]];
     }
     console.log('selectedSchemas is ', selectedSchemas)
 
-    // fetch to the backend 
+    // fetch to the backend
 
       fetch('http://localhost:3000/selectedSchemas', {
         method: 'POST',
@@ -129,7 +129,7 @@ export default DropDownMenu;
     // assign the value to be the current schema
 
   //   for (let i = 0; i < schemaNames.length; i+=1) {
-      
+
   //    if (schemaNames[i].includes(clickedSchema) && e.target.checked === false) {
   //     console.log('hiiii')
   //     setClicked(clicked.filter((item) => {
