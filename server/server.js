@@ -38,4 +38,16 @@ app.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
 //     res.status(200).sendFile(path.resolve(__dirname, '../public/index.html'));
 //   });
 
+
+//Post request to get the selectedSchemas from the front end submit button
+app.post('/selectedSchemas', (req, res) => {
+  res.status(200);
+  console.log(req.body.selectedSchemas);
+  console.log(req.body.uriData);
+})
+
+
+
+
+
 app.listen(3000, () => console.log("listening on port 3000"));
