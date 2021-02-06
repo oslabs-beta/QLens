@@ -4,8 +4,9 @@ import DropDownMenu from "./DropDownMenu";
 // input field for the mongoDB uri
 const MongoDBURI = () =>  {
     const [schemaData, setSchemaData] = useState({});
+    const [uriId, setUriId] = useState('');
 
-    const submit = (e) => {
+    const submit = (e) => {I
       e.preventDefault()
       console.log('submit worked')
       fetch('http://localhost:3000/getURI', {
@@ -23,17 +24,22 @@ const MongoDBURI = () =>  {
       .catch(err => console.log(err))
     }
 
+    //uriId = document.getElementById('uriInput').value;
+    const getUri = (e) => {
+      setUriId(e.target.value);
+    };
+
     console.log("state is being set", schemaData);
 
     return (
         <div className="formContainer">
             <div>
               <form>
-                  <input type="text" placeholder="enter MongoDBURI ..."/>
+                  <input type="text" placeholder="enter MongoDBURI ..." onChange= {getUri}/>
                   <input className="URISubmitButton" type="submit" value="Submit" onClick={submit}/>
               </form>
             </div>
-            <DropDownMenu schemaData={schemaData} />
+            <DropDownMenu schemaData={schemaData} uriData={uriId} />
         </div>
     )
 }

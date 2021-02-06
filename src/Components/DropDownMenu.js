@@ -5,14 +5,11 @@
 import React, { useState, useEffect } from 'react';
 import CheckBox from './CheckBox';
 
-const DropDownMenu = ({schemaData}) => {
+
+const DropDownMenu = ({schemaData, uriData}) => {
   const [ clicked, setClicked ] = useState([]);
 
   const addCheckmark = (item) => {
-    // pass onClick into
-    // when clicked it will add specific schema to send to backend
-    // send data to state
-    // const schemaNames = Object.keys(schemaData);// [users, conversations]
 
     let clickedSchema = item.target.name;
 
@@ -27,10 +24,6 @@ const DropDownMenu = ({schemaData}) => {
       setClicked([...clicked, clickedSchema]);
     }
   }
-    //To-Do
-    // when the add schema button is clicked, we will need to send the schema name to the backend so they can send the schema to the frontend. 
-    // create a function that matches the checked schema names with the key that is in the schemaData object and sends back the object to the backend! 
-    // YAY CHO!!! yaaassss!! <3
 
   const checkHandler = e => {
     const schemaNames = Object.keys(schemaData);
@@ -42,7 +35,30 @@ const DropDownMenu = ({schemaData}) => {
 
   const sendSchemas = (e) => {
     console.log('clicked array',clicked);
-  }
+    console.log('SchemaData is', schemaData);
+
+    //sending obj data to backend
+    let selectedSchemas = {};
+    for(let i = 0; i < clicked.length; i+=1) {
+      selectedSchemas[clicked[i]] = schemaData[clicked[i]]; 
+    }
+    console.log('selectedSchemas is ', selectedSchemas)
+
+    // fetch to the backend 
+
+      fetch('http://localhost:3000/selectedSchemas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({selectedSchemas, uriData}),
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log('selectedSchemas successfully sent to the backend', data);
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        })
+    }
 
   const checkBoxComponents = [];
 
