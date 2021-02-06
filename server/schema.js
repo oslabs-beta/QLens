@@ -1,5 +1,6 @@
 const graphql = require('graphql');
 var cloneDeep = require('lodash.clonedeep');
+const mongoose = require('mongoose');
 const {
   GraphQLObjectType,
   GraphQLString,
@@ -9,105 +10,118 @@ const {
   GraphQLList,
 } = graphql;
 
-
-const dummyData = 
- {
+const dummyData = {
   users: {
-   _id: {
-    primaryKey: true,
-    type: "Object",
-    required: true,
-   },
-   name: {
-    type: "string",
-    required: true,
-   },
-   password: {
-    type: "string",
-    required: true,
-   },
-   username: {
-    type: "string",
-    required: true,
-   },
+    _id: {
+      primaryKey: true,
+      type: 'Object',
+      required: true,
+    },
+    name: {
+      type: 'string',
+      required: true,
+    },
+    password: {
+      type: 'string',
+      required: true,
+    },
+    username: {
+      type: 'string',
+      required: true,
+    },
+    __v: {
+      type: 'number',
+      required: true,
+    },
   },
   conversations: {
-   _id: {
-    primaryKey: true,
-    type: "string",
-    required: true,
-   },
-   participants: {
-    type: "Array",
-    required: true,
-   },
-   messages: {
-    type: "Array",
-    required: true,
-   },
+    _id: {
+      primaryKey: true,
+      type: 'string',
+      required: true,
+    },
+    participants: {
+      type: 'Array',
+      required: true,
+    },
+    messages: {
+      type: 'Array',
+      required: true,
+    },
+    __v: {
+      type: 'number',
+      required: true,
+    },
   },
- }
+};
 
- const capitalize = (s) => {
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
- let obj = {}
+const getGraphQlType = (key, value) => {
+  switch (true) {
+    case key.includes('__v'):
+      break;
+    case key.includes('_id'):
+      fieldsObj[key] = { type: GraphQLID };
+      break;
+    case value.type.includes('string'):
+      fieldsObj[key] = { type: GraphQLString };
+      break;
+    case value.type.includes('Array'):
+      fieldsObj[key] = { type: new GraphQLList(GraphQLString) };
+      break;
+    case value.type.includes('number'):
+      fieldsObj[key] = { type: GraphQLInt };
+      break;
+    case value.type.includes('Object'):
+      fieldsObj[key] = { type: GraphQLObjectType };
+      break;
+    default:
+      console.log(value, 'Nothing Triggered-----');
+      break;
+  }
+};
 
-let fieldsObj = {}
+// Function for capitalization
+const capitalize = (s) => {
+  if (typeof s !== 'string') return '';
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
+// -------- Object Types ---------------
+// Storing graphql object types
+let obj = {};
+// Storing properties of each mongo db schema
+let fieldsObj = {};
+let rootQueryObj = {};
 for (const property in dummyData) {
-    
-    for (const [key, value] of Object.entries(dummyData[property])) {
-        fieldsObj[key] = {type: GraphQLString}
-      }
-      var deep = cloneDeep(fieldsObj);
-      console.log(deep === fieldsObj);
+  for (const [key, value] of Object.entries(dummyData[property])) {
+    getGraphQlType(key, value);
+  }
+  const deep = cloneDeep(fieldsObj);
 
-      obj[capitalize(`${property}Type`)] = new GraphQLObjectType({
-        name: capitalize(property),
-        fields: () => (deep)
-    })
-    console.log('HEREEEEEEEEEEEEEEEEEEEE',fieldsObj, obj)
-  fieldsObj = {}
+  // Dynamically creating graphql object types
+  obj[capitalize(`${property}Type`)] = new GraphQLObjectType({
+    name: capitalize(property),
+    fields: () => deep,
+  });
+
+  rootQueryObj[property] = {
+    type: new GraphQLList(obj[capitalize(`${property}Type`)]),
+    resolve: function resolve(parent, args) {
+      return _.find({});
+    },
+  };
+  // resetting the fieldsObject
+  fieldsObj = {};
 }
 
+console.log(rootQueryObj);
+// -------- Object Types ---------------
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
-  fields: {
-    // entry points into graphql queries
-    user: {
-      type: obj.UsersType,
-      // getting one type of book. tell args that id will be passed in and it will be of type ID.
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        // code to get data from db
-        // return _.find(books, { id: args.id });
-        return _.find({});
-      },
-    },
-    // author: {
-    //   type: AuthorType,
-    //   args: { id: { type: GraphQLID } },
-    //   resolve(parent, args) {
-    //     return _.find(authors, { id: args.id });
-    //   },
-    // },
-    // books: {
-    //   type: new GraphQLList(BookType),
-    //   resolve(parent, args) {
-    //     return books;
-    //   },
-    // },
-    // authors: {
-    //   type: new GraphQLList(AuthorType),
-    //   resolve(parent, args) {
-    //     return authors;
-    //   },
-    // },
-  },
+  fields: rootQueryObj,
 });
 
 module.exports = new GraphQLSchema({
-    query: RootQuery,
-})
+  query: RootQuery,
+});
