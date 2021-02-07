@@ -65,3 +65,5 @@
 // "build": "npm run build:electron && npm run build:react",
 // "pack": "electron-builder --dir",
 // "dist": "electron-builder"
+
+// use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],

@@ -7,13 +7,15 @@ const { spawn } = require('child_process')
 const defaultInclude = path.resolve(__dirname, 'src')
 
 module.exports = {
- 
+
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-        include: defaultInclude
+        //use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+        use: ["style-loader", "css-loader"],
+        include: [defaultInclude,
+          path.resolve(__dirname, 'node_modules/codemirror/lib/codemirror.css'), path.resolve(__dirname, 'node_modules/codemirror/theme/dracula.css')]
       },
       {
         test: /\.jsx?$/,

@@ -19,7 +19,7 @@ app.use(cors());
 // Getting mongodb uri from Frontend
 app.post("/getURI", mongoSchemaController.createMongoSchema, (req, res, next) => {
   // Waiting for locals to be sent, then deleting schema.json file
-  setTimeout(() => { 
+  setTimeout(() => {
     console.log('this got deleted')
       fs.unlinkSync(path.join(__dirname, '../schema.json'))
   }, 2000)
@@ -32,7 +32,7 @@ const schema = require('./schema')
 app.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
 
 
-// app.use('/dist', express.static(path.join(__dirname, '../dist')));
+// app.use('/static', express.static(path.join(__dirname, '../src/public')));
 
 // app.get('/', (req, res) => {
 //     res.status(200).sendFile(path.resolve(__dirname, '../public/index.html'));
