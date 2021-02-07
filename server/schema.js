@@ -58,36 +58,9 @@ const dummyData = {
  },
 };
 
-MongoClient.connect(url, function (err, client) {
- // Create a collection we want to drop later
- const collection = client.db("chat").collection("users");
- // Show that duplicate records got dropped
- collection.find({}).toArray(function (err, items) {
-  console.log(items);
-  client.close();
- });
-});
 
 
 
-// mongoose.connect('mongodb+srv://judy:hush@hush.u9hai.mongodb.net/chat?retryWrites=true&w=majority')
-// let db = mongoose.connection
-
-// db.on('open', function(){
-
-//   mongoose.connection.db.listCollections(function(error, names) {
-//     console.log('DATA BASE OPENED')
-//     if (error) {
-//       throw new Error(error);
-//     } else {
-//       console.log('NAMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE', names)
-//     }
-//   });
-// });
-
-// let usersCollection = mongoose.model('user')
-// usersCollection.find({})
-// .then(data => console.log("USER COLLECTION", data))
 
 const getGraphQlType = (key, value) => {
  switch (true) {
@@ -127,6 +100,7 @@ let obj = {};
 let fieldsObj = {};
 let rootQueryObj = {};
 for (const property in dummyData) {
+  
  for (const [key, value] of Object.entries(dummyData[property])) {
   getGraphQlType(key, value);
  }
@@ -138,10 +112,38 @@ for (const property in dummyData) {
   fields: () => deep,
  });
 
+ const connectToDb = () => {
+  //let collectionData;
+    
+  MongoClient.connect(url, function (err, client) {
+    const regex = /\/(\w+)\?/g
+    const databaseName = url.match(regex)
+    const databaseString = databaseName.join('').slice(1, databaseName.join('').length - 1)
+
+     const collection = client.db(databaseString).collection('users');
+     
+     // Show that duplicate records got dropped 
+     console.log("ahhhh---", collection.find({}).toArray((err, items) => {
+      // console.log(items);
+      // collectionData = items
+      console.log('inside--------------')
+      return items
+      // client.close();
+     }))
+    })
+ }
+
+ console.log(connectToDb())
+
  rootQueryObj[property] = {
   type: new GraphQLList(obj[capitalize(`${property}Type`)]),
   resolve: function resolve(parent, args) {
-   return _.find({});
+   
+
+       //console.log('OUTSIDE------------------------------------',collectionData)
+      //return collectionData
+  //  return _.find({});
+  return collectionData
   },
  };
  // resetting the fieldsObject
