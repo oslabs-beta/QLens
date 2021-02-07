@@ -6,24 +6,24 @@ import React, { useState, useEffect } from 'react';
 import CheckBox from './CheckBox';
 
 
-const DropDownMenu = ({schemaData, uriData}) => {
-  const [ clicked, setClicked ] = useState([]);
+const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark}) => {
+  // const [ clicked, setClicked ] = useState([]);
 
-  const addCheckmark = (item) => {
+  // const addCheckmark = (item) => {
 
-    let clickedSchema = item.target.name;
+  //   let clickedSchema = item.target.name;
 
-    if (clicked.includes(clickedSchema)) {
-      console.log('includes pass')
-      setClicked(clicked.filter(tool => {
-        console.log('filter pass')
-        console.log('tool is ===', tool)
-        return tool !== clickedSchema
-      }));
-    } else {
-      setClicked([...clicked, clickedSchema]);
-    }
-  }
+  //   if (clicked.includes(clickedSchema)) {
+  //     console.log('includes pass')
+  //     setClicked(clicked.filter(tool => {
+  //       console.log('filter pass')
+  //       console.log('tool is ===', tool)
+  //       return tool !== clickedSchema
+  //     }));
+  //   } else {
+  //     setClicked([...clicked, clickedSchema]);
+  //   }
+  // }
 
   const checkHandler = e => {
     const schemaNames = Object.keys(schemaData);
@@ -33,32 +33,32 @@ const DropDownMenu = ({schemaData, uriData}) => {
     props.addCheckmark(value);
   };
 
-  const sendSchemas = (e) => {
-    console.log('clicked array',clicked);
-    console.log('SchemaData is', schemaData);
+  // const sendSchemas = (e) => {
+  //   console.log('clicked array',clicked);
+  //   console.log('SchemaData is', schemaData);
 
-    //sending obj data to backend
-    let selectedSchemas = {};
-    for(let i = 0; i < clicked.length; i+=1) {
-      selectedSchemas[clicked[i]] = schemaData[clicked[i]];
-    }
-    console.log('selectedSchemas is ', selectedSchemas)
+  //   //sending obj data to backend
+  //   let selectedSchemas = {};
+  //   for(let i = 0; i < clicked.length; i+=1) {
+  //     selectedSchemas[clicked[i]] = schemaData[clicked[i]];
+  //   }
+  //   console.log('selectedSchemas is ', selectedSchemas)
 
-    // fetch to the backend
+  //   // fetch to the backend
 
-      fetch('http://localhost:3000/selectedSchemas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({selectedSchemas, uriData}),
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log('selectedSchemas successfully sent to the backend', data);
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        })
-    }
+  //     fetch('http://localhost:3000/selectedSchemas', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json'},
+  //       body: JSON.stringify({selectedSchemas, uriData}),
+  //     })
+  //       .then(res => res.json())
+  //       .then(data => {
+  //         console.log('selectedSchemas successfully sent to the backend', data);
+  //       })
+  //       .catch((error) => {
+  //         console.log('Error', error);
+  //       })
+  //   }
 
   const checkBoxComponents = [];
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"; // userEffect to fetch inste
 import DropDownMenu from "./DropDownMenu";
 
 // input field for the mongoDB uri
-const MongoDBURI = ({schemaData, uriData, submitbtn, geturi}) =>  {
+const MongoDBURI = ({schemaData, uriData, submitbtn, geturi, sendSchemas, addCheckmark}) =>  {
     return (
         <div className="formContainer">
             <div>
@@ -11,7 +11,7 @@ const MongoDBURI = ({schemaData, uriData, submitbtn, geturi}) =>  {
                   <input className="URISubmitButton" type="submit" value="Submit" onClick={submitbtn}/>
               </form>
             </div>
-            <DropDownMenu schemaData={schemaData} uriData={uriData} />
+            <DropDownMenu schemaData={schemaData} uriData={uriData} sendSchemas={sendSchemas} addCheckmark={addCheckmark} />
         </div>
     )
 }
