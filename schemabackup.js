@@ -58,27 +58,6 @@ const dummyData = {
  },
 };
 
-// const client = new MongoClient(url);
-// async function run() {
-//   const regex = /\/(\w+)\?/g
-//   const databaseName = url.match(regex)
-//   const databaseString = databaseName.join('').slice(1, databaseName.join('').length - 1)
-//   try {
-//     await client.connect();
-//     const database = client.db(databaseString);
-//     const collection = database.collection("users");
-//     const cursor = collection.find({});
-//     // print a message if no documents were found
-//     if ((await cursor.count()) === 0) {
-//       console.log("No documents found!");
-//     }
-//     // replace console.dir with your callback to access individual elements
-//     await cursor.forEach(console.dir);
-//   } finally {
-//     await client.close();
-//   }
-// }
-// run().catch(console.dir);
 
 
 const getGraphQlType = (key, value) => {
@@ -106,16 +85,12 @@ const getGraphQlType = (key, value) => {
  }
 };
 
-    
-
 // Function for capitalization
 const capitalize = (s) => {
  if (typeof s !== "string") return "";
  return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-
-  
 // -------- Object Types ---------------
 // Storing graphql object types
 let obj = {};
@@ -127,38 +102,6 @@ for (const property in dummyData) {
  for (const [key, value] of Object.entries(dummyData[property])) {
   getGraphQlType(key, value);
  }
- 
-//.catch(err => console.log(err));
-async function run() {
-  let testVar = [];
-  
-  const client = new MongoClient(url, {useUnifiedTopology: true});
-  const regex = /\/(\w+)\?/g
-  const databaseName = url.match(regex)
-  const databaseString = databaseName.join('').slice(1, databaseName.join('').length - 1)
-  try {
-    await client.connect();
-    const database = client.db(databaseString);
-    const collection = database.collection(property);
-    const cursor = collection.find({});
-    // print a message if no documents were found
-    if ((await cursor.count()) === 0) {
-      console.log("No documents found!");
-    }
-    // replace console.dir with your callback to access individual elements
-    await cursor.forEach(dataArr =>{
-      // console.log(dataArr)
-      testVar.push(dataArr)
-    });
-  } 
-  finally {
-    await client.close();
-    
-    //await console.log('this was activated. please work')
-  }
-  return testVar
-}
-
  const deep = cloneDeep(fieldsObj);
 
  // Dynamically creating graphql object types
@@ -167,12 +110,33 @@ async function run() {
   fields: () => deep,
  });
 
-// console.log(listData)
+ const connectToDb = () => {
+  MongoClient.connect(url, function (err, client) {
+    const regex = /\/(\w+)\?/g
+    const databaseName = url.match(regex)
+    const databaseString = databaseName.join('').slice(1, databaseName.join('').length - 1)
+
+     const collection = client.db(databaseString).collection('users');
+     
+     // Show that duplicate records got dropped 
+     let returnedItems = collection.find({}).toArray((err, items) => {
+      return items
+     })
+     console.log(returnedItems)
+    })
+ }
+
+ console.log(connectToDb())
 
  rootQueryObj[property] = {
   type: new GraphQLList(obj[capitalize(`${property}Type`)]),
   resolve: function resolve(parent, args) {
-    return run()
+   
+
+       //console.log('OUTSIDE------------------------------------',collectionData)
+      //return collectionData
+  //  return _.find({});
+  return collectionData
   },
  };
  // resetting the fieldsObject
