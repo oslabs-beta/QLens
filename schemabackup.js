@@ -58,6 +58,8 @@ const dummyData = {
  },
 };
 
+
+
 const getGraphQlType = (key, value) => {
  switch (true) {
   case key.includes("__v"):
@@ -89,59 +91,60 @@ const capitalize = (s) => {
  return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
- 
+// -------- Object Types ---------------
 // Storing graphql object types
 let obj = {};
 // Storing properties of each mongo db schema
 let fieldsObj = {};
 let rootQueryObj = {};
 for (const property in dummyData) {
+  
  for (const [key, value] of Object.entries(dummyData[property])) {
   getGraphQlType(key, value);
  }
- 
-// Function will be added to rootQuery resolver. Returns documents
-async function run() {
-  let dataArr = [];
-  const client = new MongoClient(url, {useUnifiedTopology: true});
-  const regex = /\/(\w+)\?/g
-  const databaseName = url.match(regex)
-  const databaseString = databaseName.join('').slice(1, databaseName.join('').length - 1)
-  try {
-    await client.connect();
-    const database = client.db(databaseString);
-    const collection = database.collection(property);
-    const cursor = collection.find({});
-    // print a message if no documents were found
-    if ((await cursor.count()) === 0) {
-      console.log("No documents found!");
-    }
-    await cursor.forEach(data =>{
-      dataArr.push(data)
-    });
-  } 
-  finally {
-    await client.close();
-  }
-  return dataArr
-}
  const deep = cloneDeep(fieldsObj);
+
  // Dynamically creating graphql object types
  obj[capitalize(`${property}Type`)] = new GraphQLObjectType({
   name: capitalize(property),
   fields: () => deep,
  });
-// dynamically creating fields object in rootQueryType
+
+ const connectToDb = () => {
+  MongoClient.connect(url, function (err, client) {
+    const regex = /\/(\w+)\?/g
+    const databaseName = url.match(regex)
+    const databaseString = databaseName.join('').slice(1, databaseName.join('').length - 1)
+
+     const collection = client.db(databaseString).collection('users');
+     
+     // Show that duplicate records got dropped 
+     let returnedItems = collection.find({}).toArray((err, items) => {
+      return items
+     })
+     console.log(returnedItems)
+    })
+ }
+
+ console.log(connectToDb())
+
  rootQueryObj[property] = {
   type: new GraphQLList(obj[capitalize(`${property}Type`)]),
   resolve: function resolve(parent, args) {
-    // replace with Find() method Based on your file structure/imports
-    return run()
+   
+
+       //console.log('OUTSIDE------------------------------------',collectionData)
+      //return collectionData
+  //  return _.find({});
+  return collectionData
   },
  };
  // resetting the fieldsObject
  fieldsObj = {};
 }
+
+// console.log(rootQueryObj);
+// -------- Object Types ---------------
 
 const RootQuery = new GraphQLObjectType({
  name: "RootQueryType",
