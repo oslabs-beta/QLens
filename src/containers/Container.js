@@ -20,7 +20,7 @@ const Container = () => {
       headers: {
         "Content-Type" : "application/json"
       },
-      body: JSON.stringify({val: 'mongodb+srv://judy:hush@hush.u9hai.mongodb.net/chat?retryWrites=true&w=majority'})
+      body: JSON.stringify({val: uriId})
     })
     .then(res => res.json())
     .then((data) => {

@@ -2,8 +2,7 @@ const graphql = require("graphql");
 var cloneDeep = require("lodash.clonedeep");
 const mongoose = require("mongoose");
 const MongoClient = require("mongodb").MongoClient;
-const url =
- "mongodb+srv://judy:hush@hush.u9hai.mongodb.net/chat?retryWrites=true&w=majority";
+
 const {
  GraphQLObjectType,
  GraphQLString,
@@ -13,50 +12,7 @@ const {
  GraphQLList,
 } = graphql;
 
-const dummyData = {
- users: {
-  _id: {
-   primaryKey: true,
-   type: "Object",
-   required: true,
-  },
-  name: {
-   type: "string",
-   required: true,
-  },
-  password: {
-   type: "string",
-   required: true,
-  },
-  username: {
-   type: "string",
-   required: true,
-  },
-  __v: {
-   type: "number",
-   required: true,
-  },
- },
- conversations: {
-  _id: {
-   primaryKey: true,
-   type: "string",
-   required: true,
-  },
-  participants: {
-   type: "Array",
-   required: true,
-  },
-  messages: {
-   type: "Array",
-   required: true,
-  },
-  __v: {
-   type: "number",
-   required: true,
-  },
- },
-};
+
 
 const converter = {}
 let rootQueryObj = {};
@@ -65,6 +21,8 @@ let rootQueryObj = {};
 // let rootQuery;
 
 converter.migrateSchema = (req, res, next) => {
+const url = req.body.uriId;
+const data = req.body.selectedSchemas
 const getGraphQlType = (key, value) => {
  switch (true) {
   case key.includes("__v"):
@@ -109,8 +67,8 @@ let obj = {};
 let fieldsObj = {};
 let strFieldsObj = {};
 let stringObj = {}
-for (const property in dummyData) {
- for (const [key, value] of Object.entries(dummyData[property])) {
+for (const property in data) {
+ for (const [key, value] of Object.entries(data[property])) {
   getGraphQlType(key, value);
  }
 
