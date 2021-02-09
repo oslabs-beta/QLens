@@ -7,7 +7,8 @@ const Container = () => {
   const [schemaData, setSchemaData] = useState({});
   const [uriId, setUriId] = useState('');
   const [selectedSchemaData, setSelectedSchemaData] = useState([]);
-  const [ clicked, setClicked ] = useState([]);
+  const [clicked, setClicked] = useState([]);
+  const [graphQLSchema, setGraphQLSchema] = useState({});
 
   // enter MongoDBURI to receive schemas
   // submit function fetches schemas from backend when Submit button is clicked
@@ -72,7 +73,8 @@ const Container = () => {
       })
         .then(res => res.json())
         .then(data => {
-          console.log('selectedSchemas successfully sent to the backend', data);
+          console.log('DATA!!!!', data.types);
+          setGraphQLSchema(data.types);
         })
         .catch((error) => {
           console.log('Error', error);
@@ -83,7 +85,7 @@ const Container = () => {
   return(
     <div>
       <MongoDBURI schemaData={schemaData} uriData={uriId} geturi={getUri} submitbtn={submit} sendSchemas={sendSchemas} addCheckmark={addCheckmark} />
-      <MongoSchemaIDE selectedSchemaData={selectedSchemaData}  />
+      <MongoSchemaIDE selectedSchemaData={selectedSchemaData} graphQLSchema={graphQLSchema} />
     </div>
   )
 }

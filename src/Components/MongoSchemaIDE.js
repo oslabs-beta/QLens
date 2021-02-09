@@ -8,44 +8,66 @@ import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
 const _ = require('lodash');
 
-const MongoSchemaIDE = ({schemaData, selectedSchemaData}) => {
+const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
-  // console.log('from mongoIDE schemaData', schemaData)
-  // console.log('this is data ====>', data);
-  // let data = '<h1>hiiiii</h1>';
+  const [graphData, setGraphData] = useState({});
 
-  // if (schemaData) {
-  //   data = schemaData;
-  // }
+  let concat = ''
+  for (let key in graphQLSchema) {
+    const newKey = graphQLSchema[key].replace(/["]+/g, '');
+    let array = newKey.split('');
+    console.log(array);
+    for (let i = 0; i < array.length; i+=1) {
+      if (array[i] === ',') {
+        concat += array[i]
+        concat += '\n      '
+        console.log(array[i])
+      } else if (array[i] === '{' && array[i - 1] === '{') {
+        continue;
+      }
+      else {
+        concat += array[i]
+      }
+    }
+  }
+  console.log('concat is......', concat);
 
-  console.log('this is selectedSchemaData =====>', selectedSchemaData);
 
-
-  useEffect(() => {
-    setData([...data, schemaData]);
-  }, [])
-  console.log('this is in mongoSchema =====>', data);
-  console.log('isEmpty ====', _.isEmpty(data[0]))
   return(
-
     <div>
       <div className="codebox">
         <CodeMirror
-        value={_.isEmpty(selectedSchemaData[0]) ? '<h1>hiiii</h1>' : JSON.stringify(...selectedSchemaData)}
+        value={_.isEmpty(selectedSchemaData[0]) ? `console.log("hello")` : JSON.stringify(...selectedSchemaData)}
         options={{
           mode: 'javascript',
+          lineWrapping: true,
           theme: 'dracula',
-          lineNumbers: true
+          lineNumbers: true,
+          // autoCloseBrackets: true,
+          cursorScrollMargin: 48,
+          indentUnit: 2,
+          tabSize: 2,
+          styleActiveLine: true,
+          smartIndent: true,
+          // lineSeparator: ",",
         }}
         />
         </div>
         <div className="codebox2">
           <CodeMirror
-          value='<h1>Judy with the BIGGGGGG booty! yasss queen! </h1>'
+          value={_.isEmpty(graphQLSchema) ? '<h1>GraphQLSchema</h1>' : concat}
           options={{
             mode: 'javascript',
+            lineWrapping: true,
             theme: 'dracula',
-            lineNumbers: true
+            lineNumbers: true,
+            // lineSeparator: ",",
+            // autoCloseBrackets: true,
+            cursorScrollMargin: 48,
+            indentUnit: 2,
+            tabSize: 2,
+            styleActiveLine: true,
+            smartIndent: true,
           }}
           />
       </div>
