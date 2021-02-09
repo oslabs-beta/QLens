@@ -53,7 +53,7 @@ app.use('/graphql', graphqlHTTP({ schema: schemaRoute, graphiql: true }))
 
 //Post request to get the selectedSchemas from the front end submit button
 app.post('/selectedSchemas', schemaRoute.converter.migrateSchema, (req, res) => {
-  res.status(200).json({types: res.locals.types});
+  res.status(200).json({types: res.locals.types, queries: res.locals.queries});
   console.log("ahhhhhhh", req.body.selectedSchemas)
   console.log("ahhhhhhh", req.body.uriId)
   //res.locals.rootQuery\

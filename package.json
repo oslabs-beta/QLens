@@ -59,6 +59,7 @@
     "lodash.clonedeep": "^4.5.0",
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.14",
+    "pluralize": "^8.0.0",
     "react": "^17.0.1",
     "react-ace": "^9.3.0",
     "react-codemirror2": "^7.2.1",

@@ -12,17 +12,24 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
   const [graphData, setGraphData] = useState({});
 
+  console.log("UPDATED ROOTQUERY OBJ+++", graphQLSchema)
+  // iterates over the graphQLSchema and removes the double quotes
+  // after a comma, adds a new line
   let concat = ''
   for (let key in graphQLSchema) {
+    console.log(graphQLSchema[key])
     const newKey = graphQLSchema[key].replace(/["]+/g, '');
     let array = newKey.split('');
-    console.log(array);
     for (let i = 0; i < array.length; i+=1) {
-      if (array[i] === ',') {
-        concat += array[i]
-        concat += '\n      '
-        console.log(array[i])
-      } else if (array[i] === '{' && array[i - 1] === '{') {
+      // if (array[i] === ',') {
+      //   concat += array[i]
+      //   concat += '\n      '
+      //  }
+       if (array[i] === '|') {
+        array[i] = '\n';
+        concat += array[i];
+      }
+      else if (array[i] === '{' && array[i - 1] === '{') {
         continue;
       }
       else {
@@ -30,8 +37,6 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
       }
     }
   }
-  console.log('concat is......', concat);
-
 
   return(
     <div>
