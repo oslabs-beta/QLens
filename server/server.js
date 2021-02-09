@@ -3,6 +3,16 @@ const path = require("path");
 const app = express();
 const cors = require("cors");
 const fs = require("fs");
+const graphql = require("graphql");
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+ } = graphql;
+
 // Connect to mongodb
 const MongoClient = require("mongodb").MongoClient;
 // Executing terminal commands using JS
@@ -27,10 +37,13 @@ app.post("/getURI", mongoSchemaController.createMongoSchema, (req, res, next) =>
 
 
 const {graphqlHTTP} = require('express-graphql')
-const schema = require('./schema')
+const schemaRoute = require('./schema')
+console.log(schemaRoute)
 
-app.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
+app.use('/graphql', graphqlHTTP({ schema: schemaRoute, graphiql: true }))
 
+// let schema;
+// console.log('SERVER.JS========>', schema)
 
 // app.use('/static', express.static(path.join(__dirname, '../src/public')));
 
@@ -38,16 +51,18 @@ app.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
 //     res.status(200).sendFile(path.resolve(__dirname, '../public/index.html'));
 //   });
 
-
 //Post request to get the selectedSchemas from the front end submit button
-app.post('/selectedSchemas', (req, res) => {
-  res.status(200);
-  console.log(req.body.selectedSchemas);
-  console.log(req.body.uriData);
+app.post('/selectedSchemas', schemaRoute.converter.migrateSchema, (req, res) => {
+  res.status(200).json({types: res.locals.types});
+  //res.locals.rootQuery\
+  // // scsch
 })
 
 
 
 
 
+
+
 app.listen(3000, () => console.log("listening on port 3000"));
+
