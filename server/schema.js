@@ -2,6 +2,7 @@ const graphql = require("graphql");
 var cloneDeep = require("lodash.clonedeep");
 const mongoose = require("mongoose");
 const MongoClient = require("mongodb").MongoClient;
+var pluralize = require('pluralize')
 
 const {
  GraphQLObjectType,
@@ -46,7 +47,7 @@ const getGraphQlType = (key, value) => {
    break;
   case value.type.includes("Object"):
    fieldsObj[key] = { type: GraphQLObjectType };
-   strFieldsObj[key] = `{ type: GraphQLObjectType }`;
+   strFieldsObj[key] = `|{ type: GraphQLObjectType }`;
    break;
   default:
    console.log(value, "Nothing Triggered-----");
@@ -66,7 +67,9 @@ let obj = {};
 // Storing properties of each mongo db schema
 let fieldsObj = {};
 let strFieldsObj = {};
-let stringObj = {}
+let stringObj = {};
+let strRootQueryObj = {};
+let sendRootQueryObj = {};
 for (const property in data) {
  for (const [key, value] of Object.entries(data[property])) {
   getGraphQlType(key, value);
@@ -99,26 +102,14 @@ async function run() {
 }
  const deep = cloneDeep(fieldsObj);
  const strDeep = cloneDeep(strFieldsObj)
+
  // Dynamically creating graphql object types
  obj[capitalize(`${property}Type`)] = new GraphQLObjectType({
   name: capitalize(property),
   fields: () => deep,
  });
 
-
-
-//  function formatQueries(query){
-//   return(
-//       `const RootQuery = new GraphQLObjectType({\n` +
-//       `  name: 'RootQueryType',\n` +
-//       `  fields: {` +
-//       `${query}\n`
-//   )
-// }
-
-
-
-
+ // formats the graphQL schema to send to the front end
  stringObj[property] = `const ${capitalize(`${property}Type`)} = new GraphQLObjectType({\n` +
                        `   name: '${capitalize(property)}',\n` +
                        `   fields: () => (\n` +
@@ -133,18 +124,43 @@ async function run() {
     return run()
   },
  };
+
+
+
+ strRootQueryObj[pluralize.singular(property)] = `{|` +
+                          `       type: ${capitalize(`${property}Type`)},|`+
+                          `       args: { id: { type: GraphQLID }},|` +
+                          `       resolve(parent, args) {|` +
+                          `         return ${capitalize(pluralize.singular(property))}.findById(args.id);|` +
+                          `       } |` +
+                          `     }|`
+
+ strRootQueryObj[`   ${property}`] = `{|` +
+                            `       type: new GraphQLList(${capitalize(`${property}Type`)}),|` +
+                            `       resolve(parent, args) {|` +
+                            `         return ${capitalize(pluralize.singular(property))}.find({});|`+
+                            `       }|` +
+                            `     },|`
+
+
+
  // resetting the fieldsObject
- console.log('this is stringObj ====>', strFieldsObj);
+ //  console.log('this is stringObj ====>', strFieldsObj);
  fieldsObj = {};
  strFieldsObj = {};
 }
+
+sendRootQueryObj.queries = ` const RootQuery = new GraphQLObjectType({\n` +
+                            `   name: "RootQueryType",\n ` +
+                            `   fields: ${JSON.stringify(strRootQueryObj)});|`
+
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: rootQueryObj,
  })
 
- res.locals.types = stringObj
-
+ res.locals.types = stringObj;
+ res.locals.queries = sendRootQueryObj;
  next()
 }
 
@@ -159,6 +175,6 @@ module.exports = {
   schema: new GraphQLSchema({
    query: RootQuery,
   })
-  }
+}
 
 

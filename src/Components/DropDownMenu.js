@@ -32,10 +32,7 @@ const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark}) => {
       <div>
         <button onClick={sendSchemas}>Add Selected Schemas</button>
       </div>
-
-
     </div>
-
   )
 }
 export default DropDownMenu;

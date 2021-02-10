@@ -7,7 +7,7 @@ const MongoDBURI = ({schemaData, uriData, submitbtn, geturi, sendSchemas, addChe
         <div className="formContainer">
             <div>
               <form>
-                  <input type="text" placeholder="enter MongoDBURI ..." onChange= {geturi} value="mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority"/>
+                  <input type="text" placeholder="enter MongoDBURI ..." onChange= {geturi} />
                   <input className="URISubmitButton" type="submit" value="Submit" onClick={submitbtn}/>
               </form>
             </div>
@@ -17,12 +17,3 @@ const MongoDBURI = ({schemaData, uriData, submitbtn, geturi, sendSchemas, addChe
 }
 
 export default MongoDBURI;
-
-
-
-    //To-Dos:
-        //onsubmit, onchange function
-        //fetch mongoDBSchemas from backend
-        //figure out state
-        //get each schema from data obj, send it to DropDownMenu using object.keys to get keys of arr then pass to DropDownMenu
-        //in DropDownMenu, we would pair one CheckBox with one Schema

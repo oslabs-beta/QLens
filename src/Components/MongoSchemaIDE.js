@@ -12,26 +12,89 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
   const [graphData, setGraphData] = useState({});
 
-  let concat = ''
-  for (let key in graphQLSchema) {
-    const newKey = graphQLSchema[key].replace(/["]+/g, '');
-    let array = newKey.split('');
-    console.log(array);
+  console.log("UPDATED ROOTQUERY OBJ+++", graphQLSchema)
+  // iterates over the graphQLSchema and removes the double quotes
+  // after a comma, adds a new line
+  // let concat = ''
+  // for (let key in graphQLSchema) {
+  //   console.log(graphQLSchema[key])
+  //   const newKey = graphQLSchema[key].replace(/["]+/g, '');
+  //   let array = newKey.split('');
+  //   for (let i = 0; i < array.length; i+=1) {
+  //     // if (array[i] === ',') {
+  //     //   concat += array[i]
+  //     //   concat += '\n      '
+  //     //  }
+  //      if (array[i] === '|') {
+  //       array[i] = '\n';
+  //       concat += array[i];
+  //     }
+  //     else if (array[i] === '{' && array[i - 1] === '{') {
+  //       continue;
+  //     }
+  //     else {
+  //       concat += array[i]
+  //     }
+  //   }
+  // }
+
+
+
+  const eliminateCommas = (obj) => {
+    let str = '';
+
+    for (let key in obj) {
+      str += obj[key].replace(/["]+/g, '');
+    }
+    return str;
+  }
+
+  const newLinePillar = (str) => {
+    let newStr = '';
+    let array = str.split('');
     for (let i = 0; i < array.length; i+=1) {
-      if (array[i] === ',') {
-        concat += array[i]
-        concat += '\n      '
-        console.log(array[i])
+      if (array[i] === '|') {
+        array[i] = '\n';
+        newStr += array[i];
       } else if (array[i] === '{' && array[i - 1] === '{') {
         continue;
-      }
-      else {
-        concat += array[i]
+      } else {
+        newStr += array[i];
       }
     }
+    return newStr;
   }
-  console.log('concat is......', concat);
 
+  const newLineComma = (str) => {
+    let newStr = '';
+    let array = str.split('');
+    for (let i = 0; i < array.length; i+=1) {
+      if (array[i] === ',') {
+        newStr += array[i];
+        newStr += '\n        ';
+      } else {
+        newStr += array[i];
+      }
+    }
+    return newStr;
+  }
+
+  const newTypes = eliminateCommas(graphQLSchema.types);
+  const newQueries = eliminateCommas(graphQLSchema.queries);
+
+  // const typeQ = newLinePillar(newTypes);
+  const rootQ = newLinePillar(newQueries);
+
+  const typeOutput = newLineComma(newTypes);
+
+  const combineQueries = (query1, query2) => {
+    return query1 + query2;
+  }
+
+  const combined = combineQueries(typeOutput, rootQ);
+
+  console.log('ROOTQ =========>', rootQ)
+  // const newS =
 
   return(
     <div>
@@ -55,7 +118,7 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
         </div>
         <div className="codebox2">
           <CodeMirror
-          value={_.isEmpty(graphQLSchema) ? '<h1>GraphQLSchema</h1>' : concat}
+          value={_.isEmpty(graphQLSchema) ? '<h1>GraphQLSchema</h1>' : combined}
           options={{
             mode: 'javascript',
             lineWrapping: true,
