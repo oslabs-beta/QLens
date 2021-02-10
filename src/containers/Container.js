@@ -74,7 +74,7 @@ const Container = () => {
         .then(res => res.json())
         .then(data => {
           console.log('DATA!!!!', data);
-          setGraphQLSchema(data.types);
+          setGraphQLSchema(data);
         })
         .catch((error) => {
           console.log('Error', error);

@@ -35,15 +35,15 @@ const getGraphQlType = (key, value) => {
    break;
   case value.type.includes("string"):
    fieldsObj[key] = { type: GraphQLString };
-   strFieldsObj[`|${key}`] = `{ type: GraphQLString }`;
+   strFieldsObj[key] = `{ type: GraphQLString }`;
    break;
   case value.type.includes("Array"):
    fieldsObj[key] = { type: new GraphQLList(GraphQLString) };
-   strFieldsObj[key] = `|{ type: GraphQLString }`;
+   strFieldsObj[key] = `{ type: GraphQLString }`;
    break;
   case value.type.includes("number"):
    fieldsObj[key] = { type: GraphQLInt };
-   strFieldsObj[key] = `|{ type: GraphQLInt }`;
+   strFieldsObj[key] = `{ type: GraphQLInt }`;
    break;
   case value.type.includes("Object"):
    fieldsObj[key] = { type: GraphQLObjectType };
