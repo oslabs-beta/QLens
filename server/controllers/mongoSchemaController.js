@@ -7,7 +7,7 @@ const MongoClient = require("mongodb").MongoClient;
 const { exec } = require("child_process");
 
 exports.createMongoSchema = (req, res, next) => {
-    console.log(req.body.val);
+    // console.log(req.body.val);
  let userURI = req.body.val;
 
 // Connect to mongodb
@@ -43,5 +43,5 @@ exports.createMongoSchema = (req, res, next) => {
    }
 })
 next()
-}
+}//
 

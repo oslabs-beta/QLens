@@ -3,14 +3,20 @@ import React from 'react'
 import MongoDBURI from './Components/MongoDBURI';
 import DropDownMenu from './Components/DropDownMenu';
 import Container from './containers/Container';
-import './public/index.css'
+import './public/index.css';
+import PlaygroundButton from './Components/PlaygroundButton'
 
 
 // Create main App component
 const App = () => (
   <div>
-    <img id="logo" src="https://i.ibb.co/KFmZK7N/qlens-logo.png" alt="qlens-logo" border="0" />
-    <Container />
+    <div>
+      <PlaygroundButton/>
+    </div>
+    <div>
+      <img id="logo" src="https://i.ibb.co/PYBbKLK/Screen-Shot-2021-02-11-at-10-21-02-AM.png" alt="QLens-logo" border="0"/>
+      <Container />
+    </div>
   </div>
 )
 

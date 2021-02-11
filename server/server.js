@@ -60,7 +60,7 @@ const schemaRoute = require('./schema')
 
   app.post('/selectedSchemas', schemaRoute.converter.migrateSchema, (req, res) => {
     global.convertedGraphQlSchema = res.locals.convertedSchema
-    res.status(200).json({types: res.locals.types, queries: res.locals.queries, mutation: res.locals.mutations});
+    res.status(200).json({types: res.locals.types, queries: res.locals.queries, mutation: res.locals.mutations, mongoSchema: res.locals.mongoSchema});
     // console.dir('Jake loves this schema ======>', res.locals.convertedSchema);
     // console.dir('GLOBALLLLLLLLLLLLLLLLLLLLLLLL', global.convertedGraphQlSchema)
     app.use('/graphql', graphqlHTTP({ schema: res.locals.convertedSchema, graphiql: true }))

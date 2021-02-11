@@ -40,30 +40,36 @@ const getGraphQlType = (key, value) => {
    case key.includes("_id"):
     fieldsObj[key] = { type: GraphQLID };
     strFields += `${addWhiteSpace(4)}${key}: { type: GraphQLID },|`;
+    mongoSchemaStr += `${addWhiteSpace(2)}${key}: |${addWhiteSpace(4)}${JSON.stringify(value)},|`
     break;
    case value.type.includes("string"):
     fieldsObj[key] = { type: GraphQLString };
     mutationObj[key] = { type: new GraphQLNonNull(GraphQLString) };
     strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLString },|`;
     mutationToString += `${addWhiteSpace(8)}${key}: { type: new GraphQLNonNull(GraphQLString) },|`;
+    mongoSchemaStr += `${addWhiteSpace(2)}${key}: |${addWhiteSpace(4)}${JSON.stringify(value)},|`
     break;
    case value.type.includes("Array"):
     fieldsObj[key] = { type: new GraphQLList(GraphQLString) };
     mutationObj[key] = { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) };
     strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLString },|`;
     mutationToString += `${addWhiteSpace(8)}${key}: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },|`;
+    mongoSchemaStr += `${addWhiteSpace(2)}${key}:  |${addWhiteSpace(4)}${JSON.stringify(value)},|`
     break;
    case value.type.includes("number"):
     fieldsObj[key] = { type: GraphQLInt };
     mutationObj[key] = { type: new GraphQLNonNull(GraphQLInt) };
     strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLInt },|`;
     mutationToString += `${addWhiteSpace(8)}${key}: { type: new GraphQLNonNull(GraphQLInt) },|`;
+    mongoSchemaStr += `${addWhiteSpace(2)}${key}: |${addWhiteSpace(4)}${JSON.stringify(value)},|`
     break;
    case value.type.includes("Object"):
     fieldsObj[key] = { type: GraphQLObjectType };
     mutationObj[key] = { type: new GraphQLNonNull(GraphQLObjectType) };
     strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLObjectType },|`;
     mutationToString += `${addWhiteSpace(8)}${key}: { type: new GraphQLNonNull(GraphQLObjectType) },|`;
+    mongoSchemaStr += `${addWhiteSpace(2)}${key}:  |${addWhiteSpace(4)}${JSON.stringify(value)},|`
+
     break;
    default:
     console.log(value, "Nothing Triggered-----");
@@ -90,11 +96,20 @@ let mutationObj = {}
 let mutationObjStr = ''
 let mutationToString = ''
 let mutationSchema;
+let buildMongoStr = '';
+let mongoSchemaStr = ''
 
 for (const property in data) {
  for (const [key, value] of Object.entries(data[property])) {
   getGraphQlType(key, value);
  }
+
+ // Building Selected schemas string to be sent to front end display (codemirror)
+
+buildMongoStr += `const ${property} = new Schema({|` +
+ `${mongoSchemaStr}` +
+ `});||`
+
 
 // Function will be added to rootQuery resolver. Returns documents
 async function run() {
@@ -102,9 +117,9 @@ async function run() {
   const client = new MongoClient(url, {useUnifiedTopology: true});
   const regex = /\/(\w+)\?/g
   const databaseName = url.match(regex)
-  console.log('DATABASSSSUUUUUU', url)
+  // console.log('DATABASSSSUUUUUU', url)
   const databaseString = databaseName.join('').slice(1, databaseName.join('').length - 1)
-  console.log('DATABASSSSUUUUUU2222222', databaseString)
+  // console.log('DATABASSSSUUUUUU2222222', databaseString)
 
   try {
     await client.connect();
@@ -207,7 +222,10 @@ async function run() {
  strFields = '';
  mutationObjStr = '';
  mutationToString = '';
+ mongoSchemaStr = '';
 }
+
+
 
 sendRootQueryObj.queries = `const RootQuery = new GraphQLObjectType({|` +
                             `  name: "RootQueryType",|` +
@@ -220,14 +238,14 @@ const RootQuery = new GraphQLObjectType({
   fields: rootQueryObj,
  })
 
- console.log('  inside------------------', RootQuery)
- console.log('  inside ROOTQUERYOBJ', rootQueryObj)
+//  console.log('  inside------------------', RootQuery)
+//  console.log('  inside ROOTQUERYOBJ', rootQueryObj)
 
 
  res.locals.types = stringObj;
  res.locals.queries = sendRootQueryObj;
  res.locals.mutations = mutationSchema;
-
+ res.locals.mongoSchema = buildMongoStr;
 
  res.locals.convertedSchema = new GraphQLSchema({
   query: RootQuery
@@ -251,5 +269,3 @@ module.exports = {
 
 
 
-// put comma on line 21 of codemirrror
-// add closing bracket to line 28 of codemirror

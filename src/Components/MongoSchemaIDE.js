@@ -11,8 +11,8 @@ const _ = require('lodash');
 const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
   const [graphData, setGraphData] = useState({});
-
-  console.log("UPDATED ROOTQUERY OBJ+++", graphQLSchema)
+  console.log('SELECTED SCHEMAS WOAAAAA', graphQLSchema);
+  // console.log("UPDATED ROOTQUERY OBJ+++", graphQLSchema)
   // iterates over the graphQLSchema and removes the double quotes
   const eliminateQuotes = (obj) => {
     let str = '';
@@ -24,6 +24,8 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   }
 
   const newLinePillar = (str) => {
+    if (str === undefined) return;
+    console.log(str);
     let newStr = '';
     let array = str.split('');
     for (let i = 0; i < array.length; i+=1) {
@@ -54,7 +56,13 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   }
 
   // mongoDB Schema
-  const mongoSchemaWithoutQuotes = eliminateQuotes(JSON.stringify(selectedSchemaData));
+  const noQuotes = eliminateQuotes(JSON.stringify(selectedSchemaData));
+  const format = newLineComma(noQuotes);
+
+  // const mSchema = newLineComma(graphQLSchema.mongoSchema);
+  const newLineMongo = newLinePillar(graphQLSchema.mongoSchema);
+  const mongoSchemaWithoutQuotes = eliminateQuotes(newLineMongo);
+  const formattedMongo = newLineComma(mongoSchemaWithoutQuotes);
 
   // graphQL Schema
   const newTypes = eliminateQuotes(graphQLSchema.types);
@@ -69,20 +77,21 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   // const typeOutput = newLineComma(newTypes);
   // const mutationNL = newLineComma(commaLessMutation);
 
+
   const combineQueries = (query1, query2, query3) => {
     return query1 + query2 + query3;
   }
 
   const combined = combineQueries(formattedTypes, rootQ, rootM);
 
-  console.log('ROOTQ =========>', rootQ)
+  // console.log('ROOTQ =========>', rootQ)
   // const newS =
 
   return(
     <div className="codeboxContainer">
       <div className="codebox">
         <CodeMirror
-        value={_.isEmpty(selectedSchemaData[0]) ? `console.log("hello")` : mongoSchemaWithoutQuotes}
+        value={_.isEmpty(selectedSchemaData[0]) ? `console.log("hello")` : formattedMongo}
         options={{
           mode: 'javascript',
           lineWrapping: true,

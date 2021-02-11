@@ -40,7 +40,7 @@ const Container = () => {
       let clickedSchema = item.target.name;
 
       if (clicked.includes(clickedSchema)) {
-        console.log('includes pass')
+        // console.log('includes pass')
         setClicked(clicked.filter(tool => {
           console.log('filter pass')
           console.log('tool is ===', tool)
@@ -54,8 +54,7 @@ const Container = () => {
   // sends the selectedSchemas to the backend for migration
   const sendSchemas = (e) => {
     console.log('clicked array',clicked);
-    console.log('SchemaData is', schemaData);
-
+    console.log('WOAAAAAAAAAAA', schemaData)
     //sending obj data to backend
     let selectedSchemas = {};
     for(let i = 0; i < clicked.length; i+=1) {
@@ -80,7 +79,6 @@ const Container = () => {
           console.log('Error', error);
         })
     }
-
 
   return(
     <div>
