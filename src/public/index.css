@@ -1,3 +1,19 @@
 #logo {
   width: 15%;
 }
+
+body {
+  background-color: rgb(27, 27, 27);
+}
+.formClass {
+  text-align: center;
+}
+.URIForm {
+
+  width: 35%;
+}
+
+.URISubmitButton {
+  font-family: monospace;
+  color: black;
+}

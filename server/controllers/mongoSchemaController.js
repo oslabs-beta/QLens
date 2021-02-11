@@ -34,7 +34,7 @@ exports.createMongoSchema = (req, res, next) => {
    console.log(`there was a ${event} at ${trigger}`)
    // Once change happens (file is added) read schema.json file
    file = fs.readFileSync(path.join(__dirname, "../../schema.json"))
-   console.log('SERVER.JS =========> ', Buffer.from(file).toString())
+  //  console.log('SERVER.JS =========> ', Buffer.from(file).toString())
    res.locals.data = Buffer.from(file).toString()
    if (res.locals.data) {
      // send locals data to client, close this watch function
