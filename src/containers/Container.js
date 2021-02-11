@@ -20,7 +20,7 @@ const Container = () => {
       headers: {
         "Content-Type" : "application/json"
       },
-      body: JSON.stringify({val: uriId})
+      body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
     })
     .then(res => res.json())
     .then((data) => {

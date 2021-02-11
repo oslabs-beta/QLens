@@ -10,15 +10,11 @@ const {
  GraphQLID,
  GraphQLInt,
  GraphQLList,
+ GraphQLNonNull
 } = graphql;
-
-
 
 const converter = {}
 let rootQueryObj = {};
-
-
-// let rootQuery;
 
 converter.migrateSchema = (req, res, next) => {
 const url = req.body.uriId;
@@ -30,23 +26,30 @@ const getGraphQlType = (key, value) => {
   case key.includes("_id"):
    fieldsObj[key] = { type: GraphQLID };
    strFieldsObj[key] = `{ type:GraphQLID }`;
-  //  strFieldsObj[key] = {type:`${GraphQLID}`;
    break;
   case value.type.includes("string"):
    fieldsObj[key] = { type: GraphQLString };
+   mutationObj[key] = { type: new GraphQLNonNull(GraphQLString) };
    strFieldsObj[key] = `{ type: GraphQLString }`;
+   changeMutationtoString[key] = `{ type: new GraphQLNonNull(GraphQLString) `;
    break;
   case value.type.includes("Array"):
    fieldsObj[key] = { type: new GraphQLList(GraphQLString) };
+   mutationObj[key] = { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) };
    strFieldsObj[key] = `{ type: GraphQLString }`;
+   changeMutationtoString[key] = `{  type: new GraphQLNonNull(new GraphQLList(GraphQLString)) } `;
    break;
   case value.type.includes("number"):
    fieldsObj[key] = { type: GraphQLInt };
+   mutationObj[key] = { type: new GraphQLNonNull(GraphQLInt) };
    strFieldsObj[key] = `{ type: GraphQLInt }`;
+   changeMutationtoString[key] = `{ type: new GraphQLNonNull(GraphQLInt) `;
    break;
   case value.type.includes("Object"):
    fieldsObj[key] = { type: GraphQLObjectType };
+   mutationObj[key] = { type: new GraphQLNonNull(GraphQLObjectType) };
    strFieldsObj[key] = `{ type: GraphQLObjectType }`;
+   changeMutationtoString[key] = `{ type: new GraphQLNonNull(GraphQLObjectType) `;
    break;
   default:
    console.log(value, "Nothing Triggered-----");
@@ -65,8 +68,13 @@ const capitalize = (s) => {
 let obj = {};
 // Storing properties of each mongo db schema
 let fieldsObj = {};
+let stringObj = {};
 let strFieldsObj = {};
-let stringObj = {}
+
+let mutationObj = {}
+let mutationObjStr = {}
+let changeMutationtoString = {}
+
 for (const property in data) {
  for (const [key, value] of Object.entries(data[property])) {
   getGraphQlType(key, value);
@@ -97,27 +105,16 @@ async function run() {
   }
   return dataArr
 }
+
  const deep = cloneDeep(fieldsObj);
  const strDeep = cloneDeep(strFieldsObj)
+ const mutationDeep = cloneDeep(changeMutationtoString)
+
  // Dynamically creating graphql object types
  obj[capitalize(`${property}Type`)] = new GraphQLObjectType({
   name: capitalize(property),
   fields: () => deep,
  });
-
-
-
-//  function formatQueries(query){
-//   return(
-//       `const RootQuery = new GraphQLObjectType({\n` +
-//       `  name: 'RootQueryType',\n` +
-//       `  fields: {` +
-//       `${query}\n`
-//   )
-// }
-
-
-
 
  stringObj[property] = `const ${capitalize(`${property}Type`)} = new GraphQLObjectType({\n` +
                        `   name: '${capitalize(property)}',\n` +
@@ -133,8 +130,39 @@ async function run() {
     return run()
   },
  };
+
+ //======================= CREATING MUTATION =======================
+
+ let listOfProperties = {}
+ Object.keys(data[property]).filter(key => key !== '_id' && key !== "__v").forEach(el => {
+  listOfProperties[el] = `args.${el}`
+ })
+ console.log('LIST OF PROPERTIESSSSSSSSSSSS===============', listOfProperties)
+ 
+ mutationObjStr[property] =
+ `   add${capitalize(property)} : {\n` +
+ `     type: ${capitalize(`${property}Type`)}\n` +
+ `     args: { ` +
+ `     ${JSON.stringify(mutationDeep)}\n`+
+ `     resolve(parent, args) {\n`+
+ `        let ${property} = new ${capitalize(property)} (\n`+
+ `        ${JSON.stringify(listOfProperties)}) \n`+
+ `     return ${property}.save() \n` +
+ `     } \n` +
+ `    } \n` +
+ `   } \n`
+ 
+ 
+ let mutationSchema =  `const Mutation = new GraphQLObjectType({\n` +
+                      `   name: 'Mutation, \n` +
+                      `   fields: ${Object.values(mutationObjStr)}` 
+
+ //=====================================================================
+
  // resetting the fieldsObject
  console.log('this is stringObj ====>', strFieldsObj);
+ console.log('this is mutationObj ====>', mutationSchema);
+
  fieldsObj = {};
  strFieldsObj = {};
 }
@@ -144,10 +172,10 @@ const RootQuery = new GraphQLObjectType({
  })
 
  res.locals.types = stringObj
+ res.locals.mutations = changeMutationtoString
 
  next()
 }
-
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",

@@ -38,33 +38,16 @@ app.post("/getURI", mongoSchemaController.createMongoSchema, (req, res, next) =>
 
 const {graphqlHTTP} = require('express-graphql')
 const schemaRoute = require('./schema')
-console.log(schemaRoute)
 
 app.use('/graphql', graphqlHTTP({ schema: schemaRoute, graphiql: true }))
 
-// let schema;
-// console.log('SERVER.JS========>', schema)
-
-// app.use('/static', express.static(path.join(__dirname, '../src/public')));
-
-// app.get('/', (req, res) => {
-//     res.status(200).sendFile(path.resolve(__dirname, '../public/index.html'));
-//   });
 
 //Post request to get the selectedSchemas from the front end submit button
 app.post('/selectedSchemas', schemaRoute.converter.migrateSchema, (req, res) => {
   res.status(200).json({types: res.locals.types});
-  console.log("ahhhhhhh", req.body.selectedSchemas)
-  console.log("ahhhhhhh", req.body.uriId)
-  //res.locals.rootQuery\
-  // // scsch
+  // console.log("ahhhhhhh", req.body.selectedSchemas)
+  // console.log("ahhhhhhh", req.body.uriId)
 })
-
-
-
-
-
-
 
 app.listen(3000, () => console.log("listening on port 3000"));
 

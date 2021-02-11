@@ -7,7 +7,7 @@ const MongoDBURI = ({schemaData, uriData, submitbtn, geturi, sendSchemas, addChe
         <div className="formContainer">
             <div>
               <form>
-                  <input type="text" placeholder="enter MongoDBURI ..." onChange= {geturi} value="mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority"/>
+                  <input type="text" placeholder="enter MongoDBURI ..." onChange= {geturi} />
                   <input className="URISubmitButton" type="submit" value="Submit" onClick={submitbtn}/>
               </form>
             </div>
