@@ -38,9 +38,8 @@ app.post("/getURI", mongoSchemaController.createMongoSchema, (req, res, next) =>
 
 const {graphqlHTTP} = require('express-graphql')
 const schemaRoute = require('./schema')
-console.log(schemaRoute)
 
-app.use('/graphql', graphqlHTTP({ schema: schemaRoute, graphiql: true }))
+
 
 // let schema;
 // console.log('SERVER.JS========>', schema)
@@ -48,23 +47,24 @@ app.use('/graphql', graphqlHTTP({ schema: schemaRoute, graphiql: true }))
 // app.use('/static', express.static(path.join(__dirname, '../src/public')));
 
 // app.get('/', (req, res) => {
-//     res.status(200).sendFile(path.resolve(__dirname, '../public/index.html'));
-//   });
+  //     res.status(200).sendFile(path.resolve(__dirname, '../public/index.html'));
+  //   });
 
-//Post request to get the selectedSchemas from the front end submit button
-app.post('/selectedSchemas', schemaRoute.converter.migrateSchema, (req, res) => {
-  res.status(200).json({types: res.locals.types, queries: res.locals.queries});
-  console.log("ahhhhhhh", req.body.selectedSchemas)
-  console.log("ahhhhhhh", req.body.uriId)
-  //res.locals.rootQuery\
-  // // scsch
+  global.convertedGraphQlSchema = '';
+  //Post request to get the selectedSchemas from the front end submit button
+  // const testing = (req, res, next) => {
+  //   app.use('/graphql', graphqlHTTP({ schema: global.convertedGraphQlSchema, graphiql: true }), (req, res, next) => {
+  //     next()
+  //   })
+  // }
+
+  app.post('/selectedSchemas', schemaRoute.converter.migrateSchema, (req, res) => {
+    global.convertedGraphQlSchema = res.locals.convertedSchema
+    res.status(200).json({types: res.locals.types, queries: res.locals.queries, mutation: res.locals.mutations});
+    // console.dir('Jake loves this schema ======>', res.locals.convertedSchema);
+    // console.dir('GLOBALLLLLLLLLLLLLLLLLLLLLLLL', global.convertedGraphQlSchema)
+    app.use('/graphql', graphqlHTTP({ schema: res.locals.convertedSchema, graphiql: true }))
 })
-
-
-
-
-
-
 
 app.listen(3000, () => console.log("listening on port 3000"));
 

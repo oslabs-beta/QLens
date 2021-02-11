@@ -14,33 +14,7 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
 
   console.log("UPDATED ROOTQUERY OBJ+++", graphQLSchema)
   // iterates over the graphQLSchema and removes the double quotes
-  // after a comma, adds a new line
-  // let concat = ''
-  // for (let key in graphQLSchema) {
-  //   console.log(graphQLSchema[key])
-  //   const newKey = graphQLSchema[key].replace(/["]+/g, '');
-  //   let array = newKey.split('');
-  //   for (let i = 0; i < array.length; i+=1) {
-  //     // if (array[i] === ',') {
-  //     //   concat += array[i]
-  //     //   concat += '\n      '
-  //     //  }
-  //      if (array[i] === '|') {
-  //       array[i] = '\n';
-  //       concat += array[i];
-  //     }
-  //     else if (array[i] === '{' && array[i - 1] === '{') {
-  //       continue;
-  //     }
-  //     else {
-  //       concat += array[i]
-  //     }
-  //   }
-  // }
-
-
-
-  const eliminateCommas = (obj) => {
+  const eliminateQuotes = (obj) => {
     let str = '';
 
     for (let key in obj) {
@@ -79,28 +53,36 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
     return newStr;
   }
 
-  const newTypes = eliminateCommas(graphQLSchema.types);
-  const newQueries = eliminateCommas(graphQLSchema.queries);
+  // mongoDB Schema
+  const mongoSchemaWithoutQuotes = eliminateQuotes(JSON.stringify(selectedSchemaData));
+
+  // graphQL Schema
+  const newTypes = eliminateQuotes(graphQLSchema.types);
+  const newQueries = eliminateQuotes(graphQLSchema.queries);
+  const commaLessMutation = eliminateQuotes(graphQLSchema.mutation);
 
   // const typeQ = newLinePillar(newTypes);
   const rootQ = newLinePillar(newQueries);
+  const formattedTypes = newLinePillar(newTypes);
+  const rootM = newLinePillar(commaLessMutation);
 
-  const typeOutput = newLineComma(newTypes);
+  // const typeOutput = newLineComma(newTypes);
+  // const mutationNL = newLineComma(commaLessMutation);
 
-  const combineQueries = (query1, query2) => {
-    return query1 + query2;
+  const combineQueries = (query1, query2, query3) => {
+    return query1 + query2 + query3;
   }
 
-  const combined = combineQueries(typeOutput, rootQ);
+  const combined = combineQueries(formattedTypes, rootQ, rootM);
 
   console.log('ROOTQ =========>', rootQ)
   // const newS =
 
   return(
-    <div>
+    <div className="codeboxContainer">
       <div className="codebox">
         <CodeMirror
-        value={_.isEmpty(selectedSchemaData[0]) ? `console.log("hello")` : JSON.stringify(...selectedSchemaData)}
+        value={_.isEmpty(selectedSchemaData[0]) ? `console.log("hello")` : mongoSchemaWithoutQuotes}
         options={{
           mode: 'javascript',
           lineWrapping: true,
