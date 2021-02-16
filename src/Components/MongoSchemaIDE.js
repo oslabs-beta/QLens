@@ -2,11 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import Codemirror from 'codemirror';
 import {UnControlled as CodeMirror} from 'react-codemirror2';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 require('codemirror/mode/javascript/javascript');
 import '../public/codemirror.css';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
 const _ = require('lodash');
+
 
 const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
@@ -89,42 +92,62 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
 
   return(
     <div className="codeboxContainer">
-      <div className="codebox">
-        <CodeMirror
-        value={_.isEmpty(selectedSchemaData[0]) ? `console.log("hello")` : formattedMongo}
-        options={{
-          mode: 'javascript',
-          lineWrapping: true,
-          theme: 'dracula',
-          lineNumbers: true,
-          // autoCloseBrackets: true,
-          cursorScrollMargin: 48,
-          indentUnit: 2,
-          tabSize: 2,
-          styleActiveLine: true,
-          smartIndent: true,
-          // lineSeparator: ",",
-        }}
-        />
-        </div>
+      <Tabs>
+      <TabList>
+        <Tab>GraphQL Schemas</Tab>
+        <Tab>MongoDB Schemas</Tab>
+      </TabList>
+      <TabPanel>
         <div className="codebox2">
           <CodeMirror
-          value={_.isEmpty(graphQLSchema) ? '<h1>GraphQLSchema</h1>' : combined}
+            value={_.isEmpty(graphQLSchema) ? `/*
+
+*** Input MongoDB Uri ***
+*** Click Add Selected Schemas ***
+*** View GraphQL Schemas Here ***
+
+*/` : combined}
+            options={{
+              mode: 'javascript',
+              lineWrapping: true,
+              theme: 'dracula',
+              lineNumbers: true,
+              // lineSeparator: ",",
+              // autoCloseBrackets: true,
+              cursorScrollMargin: 48,
+              indentUnit: 2,
+              tabSize: 2,
+              styleActiveLine: true,
+              smartIndent: true,
+            }}
+            />
+        </div>
+      </TabPanel>
+      <TabPanel>
+        <div className="codebox">
+          <CodeMirror
+          value={_.isEmpty(selectedSchemaData[0]) ? `/*
+
+*** MongoDB Schemas will be displayed here ***
+
+*/` : formattedMongo}
           options={{
             mode: 'javascript',
             lineWrapping: true,
             theme: 'dracula',
             lineNumbers: true,
-            // lineSeparator: ",",
             // autoCloseBrackets: true,
             cursorScrollMargin: 48,
             indentUnit: 2,
             tabSize: 2,
             styleActiveLine: true,
             smartIndent: true,
+            // lineSeparator: ",",
           }}
           />
-      </div>
+        </div>
+      </TabPanel>
+      </Tabs>
     </div>
   )
 }
