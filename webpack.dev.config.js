@@ -15,7 +15,7 @@ module.exports = {
         //use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
         use: ["style-loader", "css-loader"],
         include: [defaultInclude,
-          path.resolve(__dirname, 'node_modules/codemirror/lib/codemirror.css'), path.resolve(__dirname, 'node_modules/codemirror/theme/dracula.css')]
+          path.resolve(__dirname, 'node_modules/codemirror/lib/codemirror.css'), path.resolve(__dirname, 'node_modules/codemirror/theme/dracula.css'), path.resolve(__dirname, './node_modules/react-tabs/style/react-tabs.css')]
       },
       {
         test: /\.jsx?$/,
