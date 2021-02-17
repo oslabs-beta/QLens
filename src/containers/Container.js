@@ -4,6 +4,7 @@ import MongoDBURI from '../Components/MongoDBURI';
 import MongoSchemaIDE from '../Components/MongoSchemaIDE';
 import DropDownMenu from "../Components/DropDownMenu";
 import PlaygroundButton from '../Components/PlaygroundButton';
+import Tree from '../Components/Tree';
 
 const Container = () => {
   const [schemaData, setSchemaData] = useState({});
@@ -26,7 +27,7 @@ const Container = () => {
     })
     .then(res => res.json())
     .then((data) => {
-      console.log('data string from fetch', data)
+      // console.log('data string from fetch', data)
       setSchemaData(JSON.parse(data));
     })
     .catch(err => console.log(err))
@@ -44,8 +45,8 @@ const Container = () => {
       if (clicked.includes(clickedSchema)) {
         // console.log('includes pass')
         setClicked(clicked.filter(tool => {
-          console.log('filter pass')
-          console.log('tool is ===', tool)
+          // console.log('filter pass')
+          // console.log('tool is ===', tool)
           return tool !== clickedSchema
         }));
       } else {
@@ -56,8 +57,8 @@ const Container = () => {
   // sendSchema function builds the selectedSchemas object with the schemas that are selected in the DropDownMenu
   // sends the selectedSchemas to the backend for migration
   const sendSchemas = (e) => {
-    console.log('clicked array',clicked);
-    console.log('WOAAAAAAAAAAA', schemaData)
+    // console.log('clicked array',clicked);
+    // console.log('WOAAAAAAAAAAA', schemaData)
     //sending obj data to backend
     let selectedSchemas = {};
     for(let i = 0; i < clicked.length; i+=1) {
@@ -75,7 +76,7 @@ const Container = () => {
       })
         .then(res => res.json())
         .then(data => {
-          console.log('DATA!!!!', data);
+          // console.log('DATA!!!!', data);
           setGraphQLSchema(data);
         })
         .catch((error) => {
@@ -92,6 +93,7 @@ const Container = () => {
     </div>
       <div className="grid-container">
         <DropDownMenu schemaData={schemaData} uriData={uriId} sendSchemas={sendSchemas} addCheckmark={addCheckmark} />
+        <Tree selectedSchemaData={selectedSchemaData} />
         <MongoSchemaIDE selectedSchemaData={selectedSchemaData} graphQLSchema={graphQLSchema} />
       </div>
     </div>
