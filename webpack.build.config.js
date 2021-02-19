@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const BabiliPlugin = require('babili-webpack-plugin')
+// const BabiliPlugin = require('babili-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 // Any directories you will be adding code/files into, need to be added to this array so webpack will pick them up
@@ -16,11 +16,11 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader'
         ],
-        include: defaultInclude
+        include: [defaultInclude, path.resolve(__dirname, 'node_modules/codemirror/lib/codemirror.css'), path.resolve(__dirname, 'node_modules/codemirror/theme/dracula.css'), path.resolve(__dirname, './node_modules/react-tabs/style/react-tabs.css'), path.resolve(__dirname, './node_modules/react-tree-graph/dist/style.css')]
       },
       {
         test: /\.jsx?$/,
-        use: [{ loader: 'babel-loader' }],
+        use: { loader: 'babel-loader', options: {presets: ['@babel/preset-env']} },
         include: defaultInclude
       },
       {
@@ -47,7 +47,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new BabiliPlugin()
+    // new BabiliPlugin()
   ],
   stats: {
     colors: true,
