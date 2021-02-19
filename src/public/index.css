@@ -5,12 +5,14 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-#logo {
+.logo {
+  grid-area: logo;
   width: 15%;
 }
 
 body {
   background-color: #111212;
+  /* background-color: white; */
   font-family: monospace;
 }
 
@@ -32,6 +34,9 @@ body {
  text-align: center;
  }
 
+ .node__root {
+   color: red;
+ }
 
 
 /* .URISubmitButton {
@@ -69,16 +74,11 @@ body {
   display: inline-block;
 }
 
-.playgroundButton {
+/* .playgroundButton {
   text-align: right;
   align-self: center;
-}
+} */
 
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
 
  .addSchemaBtn {
   text-align: center;
@@ -122,10 +122,20 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.formContainer {
-  grid-area: form;
+
+
+.container {
+  display: grid;
+  grid-template-columns: 0.7fr 1.6fr 0.7fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "logo formContainer playgroundButton";
 }
 
+.formContainer {
+  grid-area: formContainer;
+}
 
 
 .grid-container {
@@ -134,7 +144,7 @@ body {
   grid-template-rows: 1fr;
   gap: 0px 0px;
   grid-template-areas:
-    "dropDown . codeboxContainer";
+    "dropDown tree codeboxContainer";
 }
 
 .dropDown {
@@ -151,7 +161,7 @@ body {
 
 
 .playgroundButton {
-  grid-area: playgroundBtn;
+  grid-area: playgroundButton;
 }
 
 
@@ -183,4 +193,38 @@ body {
   border-color: #aaa;
   color: black;
   border-radius: 5px 5px 0 0;
+}
+
+.circle {
+  background-color: black;
+}
+.node {
+  background-color: black;
+}
+
+div.custom-container {
+	background-color: #242424;
+}
+
+svg.custom .node circle {
+	fill: #f4f4f4;
+	stroke: #2593B8;
+	stroke-width: 2px;
+}
+
+svg.custom .node text {
+	font-size: 16px;
+	background-color: #444;
+	fill: #f4f4f4;
+	text-shadow: 0 1px 4px black;
+}
+
+svg.custom .node {
+	cursor: pointer;
+}
+
+svg.custom path.link {
+	fill: none;
+	stroke: #32a8cf;
+	stroke-width: 2px;
 }
