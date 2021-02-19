@@ -139,7 +139,7 @@ async function run() {
   const client = new MongoClient(url, {useUnifiedTopology: true});
   const regex = /\/(\w+)\?/g
   const databaseName = url.match(regex)
-  console.log('DATABASSSSUUUUUU', url)
+  // console.log('DATABASSSSUUUUUU', url)
   const databaseString = databaseName.join('').slice(1, databaseName.join('').length - 1)
   // console.log('DATABASSSSUUUUUU2222222', databaseString)
 

@@ -37,7 +37,9 @@
     "html-webpack-plugin": "^4.5.1",
     "mini-css-extract-plugin": "^1.3.5",
     "nodemon": "^2.0.7",
+    "resize-observer-polyfill": "^1.5.1",
     "style-loader": "^2.0.0",
+    "use-resize-observer": "^7.0.0",
     "webpack": "^5.20.0",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
@@ -64,10 +66,16 @@
     "react": "^17.0.1",
     "react-ace": "^9.3.0",
     "react-codemirror2": "^7.2.1",
+    "react-d3-tree": "^2.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-tabs": "^3.2.0",
+<<<<<<< HEAD
     "resize-observer-polyfill": "^1.5.1",
+=======
+    "react-tree-graph": "^6.0.0",
+    "svg-url-loader": "^7.1.1",
+>>>>>>> 571b61d8cd98f3d839aba63c405c1f5050982310
     "wait-on": "^5.2.1"
   }
 }

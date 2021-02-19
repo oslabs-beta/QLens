@@ -14,7 +14,7 @@ const _ = require('lodash');
 const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
   const [graphData, setGraphData] = useState({});
-  console.log('SELECTED SCHEMAS WOAAAAA', graphQLSchema);
+  // console.log('SELECTED SCHEMAS WOAAAAA', graphQLSchema);
   // console.log("UPDATED ROOTQUERY OBJ+++", graphQLSchema)
   // iterates over the graphQLSchema and removes the double quotes
   const eliminateQuotes = (obj) => {
@@ -28,7 +28,7 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
 
   const newLinePillar = (str) => {
     if (str === undefined) return;
-    console.log(str);
+    // console.log(str);
     let newStr = '';
     let array = str.split('');
     for (let i = 0; i < array.length; i+=1) {
