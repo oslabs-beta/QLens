@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 const CheckBox = (props) => {
   return (
-    <div className="checkboxContainer">
+    <div className="checkboxContainer" id="box">
       <form className="checkboxForm">
         <label className="checkboxLabel">
           <input type="checkbox" name={props.name} onClick={props.clicked} />
