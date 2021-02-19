@@ -15,7 +15,7 @@ module.exports = {
         //use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
         use: ["style-loader", "css-loader"],
         include: [defaultInclude,
-          path.resolve(__dirname, 'node_modules/codemirror/lib/codemirror.css'), path.resolve(__dirname, 'node_modules/codemirror/theme/dracula.css'), path.resolve(__dirname, './node_modules/react-tabs/style/react-tabs.css')]
+          path.resolve(__dirname, 'node_modules/codemirror/lib/codemirror.css'), path.resolve(__dirname, 'node_modules/codemirror/theme/dracula.css'), path.resolve(__dirname, './node_modules/react-tabs/style/react-tabs.css'), path.resolve(__dirname, './node_modules/react-tree-graph/dist/style.css')]
       },
       {
         test: /\.jsx?$/,
@@ -28,10 +28,21 @@ module.exports = {
         include: defaultInclude
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        test: /\.(eot|ttf|woff|woff2)$/,
         use: [{ loader: 'file-loader?name=font/[name]__[hash:base64:5].[ext]' }],
         include: defaultInclude
-      }
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ]
   },
   target: 'electron-renderer',

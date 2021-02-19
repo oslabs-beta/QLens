@@ -9,14 +9,9 @@ import PlaygroundButton from './Components/PlaygroundButton'
 
 // Create main App component
 const App = () => (
-  <div>
-  <div>
-
     <div>
       <Container />
     </div>
-  </div>
-  </div>
 )
 
 // Export the App component

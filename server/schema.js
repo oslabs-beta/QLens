@@ -17,8 +17,6 @@ const {
 const converter = {};
 let rootQueryObj = {};
 
-// let rootQuery;
-
 function addWhiteSpace(number) {
   let whiteSpace = ' ';
   for (let i = 0; i < number; i += 1) {
@@ -40,23 +38,17 @@ converter.migrateSchema = (req, res, next) => {
     switch (true) {
       case key.includes('__v'):
         break;
-      // case value.references !== undefined:
-      //   strFields +=
-      //     `${value.references}: ${capitalize(value.references)}Type,` +
-      //     //  `${value.references}: ${capitalize(value.references)}Type,` +
-      //     `resolve(parent, args) {` +
-      //     `return ${capitalize(
-      //       value.references
-      //     )}.findById({id: parent.${key}});` +
-      //     `  },` +
-      //     `};`;
-      //   break;
       case key.includes('_id'):
         fieldsObj[key] = { type: GraphQLID };
         strFields += `${addWhiteSpace(4)}${key}: { type: GraphQLID },|`;
         mongoSchemaStr += `${addWhiteSpace(2)}${key}: |${addWhiteSpace(
           4
         )}${JSON.stringify(value)},|`;
+        mutationToString += `${addWhiteSpace(8)}${key}: ${
+          value.required === false
+            ? '{ type: GraphQLID }'
+            : '{ type: new GraphQLNonNull(GraphQLID)}'
+        },|`;
         break;
       case value.type.includes('string'):
         fieldsObj[key] = { type: GraphQLString };
@@ -64,8 +56,8 @@ converter.migrateSchema = (req, res, next) => {
         strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLString },|`;
         mutationToString += `${addWhiteSpace(8)}${key}: ${
           value.required === false
-            ? '{ type: new GraphQLList(GraphQLString) }'
-            : '{ type: new GraphQLNonNull(new GraphQLList(GraphQLString)) }'
+            ? '{ type: GraphQLString }'
+            : '{ type: new GraphQLNonNull(GraphQLString)}'
         },|`;
         mongoSchemaStr += `${addWhiteSpace(2)}${key}: |${addWhiteSpace(
           4
@@ -154,7 +146,6 @@ converter.migrateSchema = (req, res, next) => {
       const databaseString = databaseName
         .join('')
         .slice(1, databaseName.join('').length - 1);
-      // console.log('DATABASSSSUUUUUU2222222', databaseString)
       try {
         await client.connect();
         const database = client.db(databaseString);
@@ -176,11 +167,10 @@ converter.migrateSchema = (req, res, next) => {
       } finally {
         await client.close();
       }
-      return !id ? dataArr : dataArr.join('');
+      // return !id ? dataArr : dataArr.join('');
+      return dataArr;
     }
     const deep = cloneDeep(fieldsObj);
-    //  const strDeep = cloneDeep(strFieldsObj)
-    //  const mutationDeep = cloneDeep(MutationtoString)
 
     // Dynamically creating graphql object types
     obj[capitalize(`${property}Type`)] = new GraphQLObjectType({
@@ -312,48 +302,3 @@ module.exports = {
     query: RootQuery,
   }),
 };
-
-// const RootQuery = new GraphQLObjectType({
-//   name: RootQueryType,
-//   fields: {
-//     user: {
-//       type: UsersType,
-//       args: { id: { type: GraphQLID } },
-//       resolve(parent, args) {
-//         return User.findById(args.id);
-//       },
-//     },
-//     users: {
-//       type: new GraphQLList(UsersType),
-//       resolve(parent, args) {
-//         return User.find({});
-//       },
-//     },
-//     thread: {
-//       type: ThreadsType,
-//       args: { id: { type: GraphQLID } },
-//       resolve(parent, args) {
-//         return Thread.findById(args.id);
-//       },
-//     },
-//     threads: {
-//       type: new GraphQLList(ThreadsType),
-//       resolve(parent, args) {
-//         return Thread.find({});
-//       },
-//     },
-//     forum: {
-//       type: ForumsType,
-//       args: { id: { type: GraphQLID } },
-//       resolve(parent, args) {
-//         return Forum.findById(args.id);
-//       },
-//     },
-//     forums: {
-//       type: new GraphQLList(ForumsType),
-//       resolve(parent, args) {
-//         return Forum.find({});
-//       },
-//     },
-//   },
-// });
