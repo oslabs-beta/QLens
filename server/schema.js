@@ -14,6 +14,7 @@ const {
   GraphQLNonNull,
 } = graphql;
 
+
 const converter = {};
 let rootQueryObj = {};
 
@@ -130,6 +131,7 @@ converter.migrateSchema = (req, res, next) => {
     for (const [key, value] of Object.entries(data[property])) {
       getGraphQlType(key, value);
     }
+
 
     // Building Selected schemas string to be sent to front end display (codemirror)
 
@@ -288,9 +290,7 @@ converter.migrateSchema = (req, res, next) => {
     query: RootQuery,
   });
 
-  next();
 };
-
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: rootQueryObj,

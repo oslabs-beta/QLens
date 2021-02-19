@@ -22,7 +22,6 @@ const TreeGraph = ({ schemaChart }) => {
         svgProps={{
           className: 'custom'
         }}/>
-        />
     </div>
   )
 }

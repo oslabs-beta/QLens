@@ -8,6 +8,7 @@ const schemaRoute = require('./schema');
 
 const mongoSchemaController = require('./controllers/mongoSchemaController');
 
+
 app.use(express.json());
 app.use(cors());
 

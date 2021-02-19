@@ -25,7 +25,8 @@ const Container = () => {
       headers: {
         "Content-Type" : "application/json"
       },
-      body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
+      // body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
+      body: JSON.stringify({val: 'mongodb+srv://jake:testpassword@cluster0.j7bmf.mongodb.net/starwars?retryWrites=true&w=majority'})
     })
     .then(res => res.json())
     .then((data) => {
@@ -148,21 +149,6 @@ const Container = () => {
     </div>
   )
 }
-
-
-/*
-to make the "AddSelectedSchem" button hidden before submit
-function toggle_visibility(id) {
-       var e = document.getElementById(id);
-       if(e.style.display == 'block')
-          e.style.display = 'none';
-       else
-          e.style.display = 'block';
-    }
-
-    <a href="#" onclick="toggle_visibility('foo');">Click here to toggle visibility of element #foo</a>
-<div id="foo">This is foo</div>
-*/
 
 export default Container;
 
