@@ -4,37 +4,9 @@ import MongoDBURI from '../Components/MongoDBURI';
 import MongoSchemaIDE from '../Components/MongoSchemaIDE';
 import DropDownMenu from "../Components/DropDownMenu";
 import PlaygroundButton from '../Components/PlaygroundButton';
-<<<<<<< HEAD
-import TreeChart from "../Components/TreeChart";
-
-
-const initialData = {
-  name: "😐",
-  children: [
-    {
-      name: "🙂",
-      children: [
-        {
-          name: "😀"
-        },
-        {
-          name: "😁"
-        },
-        {
-          name: "🤣"
-        }
-      ]
-    },
-    {
-      name: "😔"
-    }
-  ]
-};
-=======
 // import Tree from '../Components/Tree';
 // import TreeChart from '../Components/TreeChart';
 import TreeGraph from '../Components/TreeGraph';
->>>>>>> 571b61d8cd98f3d839aba63c405c1f5050982310
 
 const Container = () => {
   const [schemaData, setSchemaData] = useState({});
@@ -53,7 +25,8 @@ const Container = () => {
       headers: {
         "Content-Type" : "application/json"
       },
-      body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
+      // body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
+      body: JSON.stringify({val: 'mongodb+srv://jake:testpassword@cluster0.j7bmf.mongodb.net/starwars?retryWrites=true&w=majority'})
     })
     .then(res => res.json())
     .then((data) => {
@@ -169,12 +142,8 @@ const Container = () => {
     </div>
       <div className="grid-container">
         <DropDownMenu schemaData={schemaData} uriData={uriId} sendSchemas={sendSchemas} addCheckmark={addCheckmark} />
-<<<<<<< HEAD
-        <TreeChart data={initialData} />
-=======
         {/* <Tree selectedSchemaData={selectedSchemaData} /> */}
         {Object.keys(schemaChart).length > 0 ? <TreeGraph schemaChart={schemaChart} /> : null}
->>>>>>> 571b61d8cd98f3d839aba63c405c1f5050982310
         <MongoSchemaIDE selectedSchemaData={selectedSchemaData} graphQLSchema={graphQLSchema} />
       </div>
     </div>

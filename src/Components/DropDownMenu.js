@@ -30,7 +30,7 @@ const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark}) => {
       {checkBoxComponents}
       </div>
       <div className="addSchemaBtn" >
-        <button className="AddSelectedSchemasButton" onClick={sendSchemas}>Add Selected Schemas</button>
+        <button className="AddSelectedSchemasButton" onClick={sendSchemas}><span>Add Selected Schemas</span></button>
       </div>
     </div>
   )

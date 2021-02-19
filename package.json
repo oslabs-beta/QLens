@@ -70,12 +70,8 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-tabs": "^3.2.0",
-<<<<<<< HEAD
-    "resize-observer-polyfill": "^1.5.1",
-=======
     "react-tree-graph": "^6.0.0",
     "svg-url-loader": "^7.1.1",
->>>>>>> 571b61d8cd98f3d839aba63c405c1f5050982310
     "wait-on": "^5.2.1"
   }
 }
