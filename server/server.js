@@ -3,22 +3,6 @@ const path = require("path");
 const app = express();
 const cors = require("cors");
 const fs = require("fs");
-const graphql = require("graphql");
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLSchema,
-  GraphQLID,
-  GraphQLInt,
-  GraphQLList,
- } = graphql;
-
-// Connect to mongodb
-const MongoClient = require("mongodb").MongoClient;
-// Executing terminal commands using JS
-const { exec } = require("child_process");
-
-
 
 const mongoSchemaController = require('./controllers/mongoSchemaController')
 

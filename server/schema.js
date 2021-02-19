@@ -35,40 +35,64 @@ const getGraphQlType = (key, value) => {
   switch (true) {
    case key.includes("__v"):
     break;
+
+   case value.references !== undefined:
+    strFields +=  `${value.references}: ${capitalize(value.references)}Type,` +
+      //  `${value.references}: ${capitalize(value.references)}Type,` +
+      `resolve(parent, args) {` +
+        `return ${capitalize(value.references)}.findById({id: parent.${key}});`+
+      `  },`+
+      `};`
+    break;
+
    case key.includes("_id"):
     fieldsObj[key] = { type: GraphQLID };
     strFields += `${addWhiteSpace(4)}${key}: { type: GraphQLID },|`;
     mongoSchemaStr += `${addWhiteSpace(2)}${key}: |${addWhiteSpace(4)}${JSON.stringify(value)},|`
     break;
+
    case value.type.includes("string"):
     fieldsObj[key] = { type: GraphQLString };
     mutationObj[key] = { type: new GraphQLNonNull(GraphQLString) };
     strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLString },|`;
-    mutationToString += `${addWhiteSpace(8)}${key}: { type: new GraphQLNonNull(GraphQLString) },|`;
+    mutationToString += `${addWhiteSpace(8)}${key}: ${value.required === false ? "{ type: new GraphQLList(GraphQLString) }" : "{ type: new GraphQLNonNull(new GraphQLList(GraphQLString)) }"},|`;
     mongoSchemaStr += `${addWhiteSpace(2)}${key}: |${addWhiteSpace(4)}${JSON.stringify(value)},|`
     break;
-   case value.type.includes("Array"):
+
+   case value.type.includes("Array") :
     fieldsObj[key] = { type: new GraphQLList(GraphQLString) };
     mutationObj[key] = { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) };
     strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLString },|`;
-    mutationToString += `${addWhiteSpace(8)}${key}: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },|`;
+    mutationToString += `${addWhiteSpace(8)}${key}: ${value.required === false ? "{ type: new GraphQLList(GraphQLString) }" : "{ type: new GraphQLNonNull(new GraphQLList(GraphQLString)) }"},|`;
     mongoSchemaStr += `${addWhiteSpace(2)}${key}:  |${addWhiteSpace(4)}${JSON.stringify(value)},|`
     break;
+
    case value.type.includes("number"):
     fieldsObj[key] = { type: GraphQLInt };
     mutationObj[key] = { type: new GraphQLNonNull(GraphQLInt) };
     strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLInt },|`;
-    mutationToString += `${addWhiteSpace(8)}${key}: { type: new GraphQLNonNull(GraphQLInt) },|`;
+    mutationToString += `${addWhiteSpace(8)}${key}: ${value.required === false ? "{ type: GraphQLInt }" : "{ type: new GraphQLNonNull(GraphQLInt) }"},|`;
     mongoSchemaStr += `${addWhiteSpace(2)}${key}: |${addWhiteSpace(4)}${JSON.stringify(value)},|`
     break;
+
    case value.type.includes("Object"):
     fieldsObj[key] = { type: GraphQLObjectType };
     mutationObj[key] = { type: new GraphQLNonNull(GraphQLObjectType) };
     strFields += `${addWhiteSpace(4)}${key}:{ type: GraphQLObjectType },|`;
-    mutationToString += `${addWhiteSpace(8)}${key}: { type: new GraphQLNonNull(GraphQLObjectType) },|`;
+    mutationToString += `${addWhiteSpace(8)}${key}: ${value.required === false ? "{ type: GraphQLObjectType }" : "{ type: new GraphQLNonNull(GraphQLObjectType) }"},|`;
     mongoSchemaStr += `${addWhiteSpace(2)}${key}:  |${addWhiteSpace(4)}${JSON.stringify(value)},|`
-
     break;
+
+  //  case value.references !== undefined:
+  //    console.log('valueeeeeeeeeeeeeeeee', value.references)
+  //   strFields +=  `{`
+  //     `type: ${capitalize(value.references)}Type`,
+  //       `resolve(parent, args) {`
+  //         `return ${capitalize(value.references)}.find(${pluralize(value.references)}, {id: parent._id});`
+  //     `  },`
+  //     `};`
+  //     break;
+      
    default:
     console.log(value, "Nothing Triggered-----");
     break;
@@ -86,7 +110,7 @@ const capitalize = (s) => {
 let obj = {};
 // Storing properties of each mongo db schema
 let fieldsObj = {};
-let strFields = '';
+let strFields = ''; // 
 let stringObj = {};
 let rootQueryStr = '';
 let sendRootQueryObj = {};

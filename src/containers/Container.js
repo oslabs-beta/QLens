@@ -4,6 +4,31 @@ import MongoDBURI from '../Components/MongoDBURI';
 import MongoSchemaIDE from '../Components/MongoSchemaIDE';
 import DropDownMenu from "../Components/DropDownMenu";
 import PlaygroundButton from '../Components/PlaygroundButton';
+import TreeChart from "../Components/TreeChart";
+
+
+const initialData = {
+  name: "😐",
+  children: [
+    {
+      name: "🙂",
+      children: [
+        {
+          name: "😀"
+        },
+        {
+          name: "😁"
+        },
+        {
+          name: "🤣"
+        }
+      ]
+    },
+    {
+      name: "😔"
+    }
+  ]
+};
 
 const Container = () => {
   const [schemaData, setSchemaData] = useState({});
@@ -92,26 +117,12 @@ const Container = () => {
     </div>
       <div className="grid-container">
         <DropDownMenu schemaData={schemaData} uriData={uriId} sendSchemas={sendSchemas} addCheckmark={addCheckmark} />
+        <TreeChart data={initialData} />
         <MongoSchemaIDE selectedSchemaData={selectedSchemaData} graphQLSchema={graphQLSchema} />
       </div>
     </div>
   )
 }
-
-
-/*
-to make the "AddSelectedSchem" button hidden before submit
-function toggle_visibility(id) {
-       var e = document.getElementById(id);
-       if(e.style.display == 'block')
-          e.style.display = 'none';
-       else
-          e.style.display = 'block';
-    }
-
-    <a href="#" onclick="toggle_visibility('foo');">Click here to toggle visibility of element #foo</a>
-<div id="foo">This is foo</div>
-*/
 
 export default Container;
 
