@@ -4,7 +4,9 @@ import MongoDBURI from '../Components/MongoDBURI';
 import MongoSchemaIDE from '../Components/MongoSchemaIDE';
 import DropDownMenu from "../Components/DropDownMenu";
 import PlaygroundButton from '../Components/PlaygroundButton';
-import Tree from '../Components/Tree';
+// import Tree from '../Components/Tree';
+// import TreeChart from '../Components/TreeChart';
+import TreeGraph from '../Components/TreeGraph';
 
 const Container = () => {
   const [schemaData, setSchemaData] = useState({});
@@ -84,6 +86,52 @@ const Container = () => {
         })
     }
 
+    let schemaChart = {};
+    if (selectedSchemaData[0]) {
+      schemaChart = {
+        name: 'Database Schema',
+        children: [],
+      }
+      let i = 0;
+      let childArr = [];
+      for (let key in selectedSchemaData[0]) {
+        console.log(selectedSchemaData[0][key])
+          for (let prop in selectedSchemaData[0][key]) {
+            childArr.push({name: prop})
+          }
+          console.log(childArr);
+          schemaChart.children[i] = {
+            name: key,
+            children: childArr,
+          };
+          childArr = [];
+          i++
+      }
+    }
+
+    // const initialData = {
+    //   name: "😐",
+    //   children: [
+    //     {
+    //       name: "🙂",
+    //       children: [
+    //         {
+    //           name: "😀"
+    //         },
+    //         {
+    //           name: "😁"
+    //         },
+    //         {
+    //           name: "🤣"
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       name: "😔"
+    //     }
+    //   ]
+    // };
+
   return(
     <div>
        <div className="container">
@@ -93,7 +141,8 @@ const Container = () => {
     </div>
       <div className="grid-container">
         <DropDownMenu schemaData={schemaData} uriData={uriId} sendSchemas={sendSchemas} addCheckmark={addCheckmark} />
-        <Tree selectedSchemaData={selectedSchemaData} />
+        {/* <Tree selectedSchemaData={selectedSchemaData} /> */}
+        {Object.keys(schemaChart).length > 0 ? <TreeGraph schemaChart={schemaChart} /> : null}
         <MongoSchemaIDE selectedSchemaData={selectedSchemaData} graphQLSchema={graphQLSchema} />
       </div>
     </div>

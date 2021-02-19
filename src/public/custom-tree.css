@@ -4,8 +4,8 @@
 
 .node__branch > circle {
   fill: yellow;
-  stroke: #2d3748;
-
+  stroke: white;
+  fill: #5EAFC6;
 }
 
 .node__leaf > circle {
