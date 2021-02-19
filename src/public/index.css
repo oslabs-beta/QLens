@@ -5,7 +5,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-#logo {
+.logo {
+  grid-area: logo;
   width: 15%;
 }
 
@@ -73,16 +74,11 @@ body {
   display: inline-block;
 }
 
-.playgroundButton {
+/* .playgroundButton {
   text-align: right;
   align-self: center;
-}
+} */
 
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
 
  .addSchemaBtn {
   text-align: center;
@@ -126,10 +122,20 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.formContainer {
-  grid-area: form;
+
+
+.container {
+  display: grid;
+  grid-template-columns: 0.7fr 1.6fr 0.7fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "logo formContainer playgroundButton";
 }
 
+.formContainer {
+  grid-area: formContainer;
+}
 
 
 .grid-container {
@@ -155,7 +161,7 @@ body {
 
 
 .playgroundButton {
-  grid-area: playgroundBtn;
+  grid-area: playgroundButton;
 }
 
 

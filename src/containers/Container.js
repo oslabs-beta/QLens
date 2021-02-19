@@ -135,9 +135,9 @@ const Container = () => {
   return(
     <div>
        <div className="container">
-      <img id="logo" src="https://i.ibb.co/PYBbKLK/Screen-Shot-2021-02-11-at-10-21-02-AM.png" alt="QLens-logo" border="0"/>
+      <img className="logo" src="https://i.ibb.co/PYBbKLK/Screen-Shot-2021-02-11-at-10-21-02-AM.png" alt="QLens-logo" border="0"/>
       <MongoDBURI schemaData={schemaData} uriData={uriId} geturi={getUri} submitbtn={submit} sendSchemas={sendSchemas} addCheckmark={addCheckmark} />
-      <PlaygroundButton/>
+      <PlaygroundButton />
     </div>
       <div className="grid-container">
         <DropDownMenu schemaData={schemaData} uriData={uriId} sendSchemas={sendSchemas} addCheckmark={addCheckmark} />
