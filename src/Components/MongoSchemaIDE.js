@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Codemirror from 'codemirror';
 import {UnControlled as CodeMirror} from 'react-codemirror2';
@@ -9,8 +8,6 @@ import '../public/codemirror.css';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
 const _ = require('lodash');
-
-
 const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
   const [graphData, setGraphData] = useState({});
@@ -19,13 +16,11 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   // iterates over the graphQLSchema and removes the double quotes
   const eliminateQuotes = (obj) => {
     let str = '';
-
     for (let key in obj) {
       str += obj[key].replace(/["]+/g, '');
     }
     return str;
   }
-
   const newLinePillar = (str) => {
     if (str === undefined) return;
     // console.log(str);
@@ -43,7 +38,6 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
     }
     return newStr;
   }
-
   const newLineComma = (str) => {
     let newStr = '';
     let array = str.split('');
@@ -57,39 +51,29 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
     }
     return newStr;
   }
-
   // mongoDB Schema
   const noQuotes = eliminateQuotes(JSON.stringify(selectedSchemaData));
   const format = newLineComma(noQuotes);
-
   // const mSchema = newLineComma(graphQLSchema.mongoSchema);
   const newLineMongo = newLinePillar(graphQLSchema.mongoSchema);
   const mongoSchemaWithoutQuotes = eliminateQuotes(newLineMongo);
   const formattedMongo = newLineComma(mongoSchemaWithoutQuotes);
-
   // graphQL Schema
   const newTypes = eliminateQuotes(graphQLSchema.types);
   const newQueries = eliminateQuotes(graphQLSchema.queries);
   const commaLessMutation = eliminateQuotes(graphQLSchema.mutation);
-
   // const typeQ = newLinePillar(newTypes);
   const rootQ = newLinePillar(newQueries);
   const formattedTypes = newLinePillar(newTypes);
   const rootM = newLinePillar(commaLessMutation);
-
   // const typeOutput = newLineComma(newTypes);
   // const mutationNL = newLineComma(commaLessMutation);
-
-
   const combineQueries = (query1, query2, query3) => {
     return query1 + query2 + query3;
   }
-
   const combined = combineQueries(formattedTypes, rootQ, rootM);
-
   // console.log('ROOTQ =========>', rootQ)
   // const newS =
-
   return(
     <div className="codeboxContainer">
       <Tabs>
@@ -101,11 +85,9 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
         <div className="codebox2">
           <CodeMirror
             value={_.isEmpty(graphQLSchema) ? `/*
-
 *** Input MongoDB Uri ***
 *** Click Add Selected Schemas ***
 *** View GraphQL Schemas Here ***
-
 */` : combined}
             options={{
               mode: 'javascript',
@@ -127,9 +109,7 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
         <div className="codebox">
           <CodeMirror
           value={_.isEmpty(selectedSchemaData[0]) ? `/*
-
 *** MongoDB Schemas will be displayed here ***
-
 */` : formattedMongo}
           options={{
             mode: 'javascript',
@@ -151,5 +131,4 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
     </div>
   )
 }
-
 export default MongoSchemaIDE;

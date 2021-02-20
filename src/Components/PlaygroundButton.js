@@ -17,8 +17,8 @@ const PlaygroundButton = () => {
 //   win.loadURL('<url>');
 // }
   return (
-    <div>
-      <button className="btn draw-border"><a href="http://localhost:3000/graphql" target="_blank"></a>Playground</button>
+    <div className="playgroundButton">
+      <button className="btn draw-border"><a href="http://localhost:3000/graphql" target="_blank">Playground</a></button>
     </div>
   )
 }
