@@ -82,42 +82,12 @@ body {
   text-align: center;
  }
 
-/*
-#playgroundBtn {
-  height: 20%;
-  width: 100%;
-  text-decoration-line: none;
-  align-self: flex-end;
-  border: 1px solid white;
-  border-radius: 3px;
-  font-size: 20px;
 
-} */
-
-/* .playgroundBtn a {
-  text-decoration-line: none;
- } */
-
- /* .AddSelectedSchemasButton {
-  margin-top: 2%;
-  font-family: 'Roboto', sans-serif;
-  color: black;
-  padding: 1.3%;
-  width: 100%;
-  color: rgb(61, 60, 60);
-  background-color: white;
-  border: none;
-  border-radius: 3%;
-  border-radius: 10px;
-  margin-bottom: 2%;
-
-} */
-
-.AddSelectedSchemasButton a {
+.AddSelectedSchemasButton span {
   font-family: monospace;
+  font-weight: 700;
+  cursor: pointer;
 }
-
-
 
 .container {
   display: grid;
@@ -170,18 +140,9 @@ body {
 
 .playgroundButton:hover{
   cursor: pointer;
-  /* background-color:  rgb(116, 115, 124); */
 }
 
 .react-tabs__tab {
-  /* display: inline-block;
-  border: 1px solid transparent;
-  border-bottom: none;
-  bottom: -1px;
-  position: relative;
-  list-style: none;
-  padding: 6px 12px;
-  cursor: pointer; */
   color: white;
 }
 
@@ -359,15 +320,17 @@ input[type=checkbox]{
 
 /* ================================ PLAYGROUND BUTTON ================================  */
 .draw-border {
-  box-shadow: inset 0 0 0 4px #58afd1;
-  color: #58afd1;
-  transition: color 0.25s 0.0833333333s;
+  font-family: monospace;
   position: relative;
+  padding: 4%;
+  width: 50%;
+  background-color: #ffe593;
+  font-size: 17px;
 }
 
 .draw-border a {
   text-decoration: none;
-  color: white;
+  color: black;
 }
 .draw-border::before, .draw-border::after {
   border: 0 solid transparent;
@@ -392,7 +355,7 @@ input[type=checkbox]{
   color: #ffe593;
 }
 .draw-border:hover::before, .draw-border:hover::after {
-  border-color: #ffe593;
+  border-color: #0D2F63;
   transition: border-color 0s, width 0.25s, height 0.25s;
   width: 100%;
   height: 100%;
