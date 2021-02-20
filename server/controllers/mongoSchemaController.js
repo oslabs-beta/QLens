@@ -43,5 +43,4 @@ exports.createMongoSchema = (req, res, next) => {
       watcher.close();
     }
   });
-  // next();
-}; //
+};

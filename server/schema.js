@@ -289,7 +289,7 @@ converter.migrateSchema = (req, res, next) => {
   res.locals.convertedSchema = new GraphQLSchema({
     query: RootQuery,
   });
-
+  next();
 };
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
