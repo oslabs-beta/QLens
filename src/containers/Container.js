@@ -8,6 +8,7 @@ import PlaygroundButton from '../Components/PlaygroundButton';
 // import TreeChart from '../Components/TreeChart';
 import TreeGraph from '../Components/TreeGraph';
 import Loader from '../Components/Loader';
+import Ribbon from '../Components/Ribbon';
 
 const Container = () => {
   const [schemaData, setSchemaData] = useState({});
@@ -143,6 +144,7 @@ const Container = () => {
             graphQLSchema={graphQLSchema}
           />
         </div>
+        <Ribbon/>
       </div>
     </Fragment>
   );

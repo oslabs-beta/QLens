@@ -1,23 +1,26 @@
 import React from "react";
-import JSZip from 'jszip'
-import saveAs from 'file-saver'
+import JSZip from "jszip";
+import saveAs from "file-saver";
 
-const DownloadBtn = ({graphqlSchema}) => {
-  console.log(graphqlSchema)
-  const download = () => {
-    let zip = new JSZip();
+const DownloadBtn = ({ graphSchema }) => {
+ console.log(graphSchema);
+ const download = () => {
+  let zip = new JSZip();
 
-    // zip.file("graphQLSchema.txt", graphqlSchema);
 
-    zip.generateAsync({type:"blob"}).then(function(content) {
-      // see FileSaver.js
-      saveAs(content, "QLens.zip");
+  var schema = zip.folder("schemas");
+  schema.file("graphQLSchema.js", graphSchema);
+  schema.file("readMe.md", "hi there");
+
+  zip.generateAsync({ type: "blob" }).then(function (content) {
+   // see FileSaver.js
+   saveAs(content, "QLens.zip");
   });
-  }
+ };
  return (
-  <div>
-   <button onClick={download}> DOWNLOAD </button>
-  </div>
+  <button className="downloadBtn" onClick={download}>
+   <span> Download </span>
+  </button>
  );
 };
 

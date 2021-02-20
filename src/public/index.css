@@ -45,7 +45,7 @@ body {
 
 .checkboxLabel {
   color: #0D2F63;
-  font-family: sans-serif;
+  font-family: monospace;
   font-size: 2vh;
   padding: 1.3%;
 }
@@ -114,7 +114,7 @@ body {
 } */
 
 .AddSelectedSchemasButton a {
-  font-family: 'Roboto', sans-serif;
+  font-family: monospace;
 }
 
 
@@ -170,7 +170,7 @@ body {
 
 .playgroundButton:hover{
   cursor: pointer;
-  background-color:  rgb(116, 115, 124);
+  /* background-color:  rgb(116, 115, 124); */
 }
 
 .react-tabs__tab {
@@ -250,11 +250,11 @@ input[type=checkbox]{
 
 .AddSelectedSchemasButton{
   display: block;
-  width: 200px;
+  width: 250px;
   height: 40px;
   line-height: 40px;
   font-size: 13px;
-  font-family: sans-serif;
+  font-family: monospace;
   text-decoration: none;
   color: #333;
   border: 2px solid #333;
@@ -403,16 +403,79 @@ input[type=checkbox]{
 .draw-border:hover::after {
   transition-delay: 0s, 0.25s, 0s;
 }
-.btn {
-  background: none;
+
+/* ================================ DOWNLOAD BUTTON ================================  */
+.downloadBtn {
+  border-radius: 4px;
+  background-color: #ffe593;
   border: none;
+  color: darkblue;
+  text-align: center;
+  font-size: 18px;
+  padding: 8px;
+  width: 200px;
+  transition: all 0.5s;
   cursor: pointer;
-  line-height: 1.5;
-  font: 700 1.2rem 'Roboto Slab', sans-serif;
-  padding: 1em 2em;
-  letter-spacing: 0.05rem;
-}
-.btn:focus {
-  outline: 2px dotted #55d7dc;
+  margin: 5px;
+  font-family: monospace;
 }
 
+.downloadBtn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.downloadBtn span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.downloadBtn:hover span {
+  padding-right: 25px;
+}
+
+.downloadBtn:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+/* ================================ RIBBON BUTTON ================================  */
+
+.corner-ribbon{
+  width: 200px;
+  background: #F49274;
+  position: absolute;
+  font-weight: 700;
+  font-size: 11.5px;
+  top: 25px;
+  left: -50px;
+  text-align: center;
+  line-height: 35px;
+  letter-spacing: 1px;
+  color: black;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon a {
+  text-decoration-line: none;
+  color: black;
+}
+
+.corner-ribbon.sticky{
+  position: fixed;
+}
+
+.corner-ribbon.top-right{
+  top: 25px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}

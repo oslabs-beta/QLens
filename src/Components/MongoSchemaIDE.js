@@ -7,6 +7,7 @@ require('codemirror/mode/javascript/javascript');
 import '../public/codemirror.css';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
+import DownloadBtn from './DownloadBtn'
 const _ = require('lodash');
 const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
@@ -128,6 +129,7 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
         </div>
       </TabPanel>
       </Tabs>
+      <DownloadBtn graphSchema={combined}/>
     </div>
   )
 }
