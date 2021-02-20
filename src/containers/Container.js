@@ -30,8 +30,7 @@ const Container = () => {
       },
       // body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
       body: JSON.stringify({
-        val:
-          'mongodb+srv://jake:testpassword@cluster0.j7bmf.mongodb.net/starwars?retryWrites=true&w=majority',
+        val: uriId,
       }),
     })
       .then((res) => res.json())
@@ -46,6 +45,7 @@ const Container = () => {
   // updating state with the MongoDBRUI from input field
   const getUri = (e) => {
     setUriId(e.target.value);
+    console.log(uriId);
   };
 
   const addCheckmark = (item) => {
@@ -63,12 +63,13 @@ const Container = () => {
   // sendSchema function builds the selectedSchemas object with the schemas that are selected in the DropDownMenu
   // sends the selectedSchemas to the backend for migration
   const sendSchemas = (e) => {
+    setSelectedSchemaData([]);
     let selectedSchemas = {};
     for (let i = 0; i < clicked.length; i += 1) {
       selectedSchemas[clicked[i]] = schemaData[clicked[i]];
     }
     console.log('selectedSchemas is ', selectedSchemas);
-    setSelectedSchemaData([...selectedSchemaData, selectedSchemas]);
+    setSelectedSchemaData([selectedSchemas]);
     fetch('http://localhost:3000/selectedSchemas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -81,6 +82,7 @@ const Container = () => {
       .catch((error) => {
         console.log('Error', error);
       });
+    setClicked([]);
   };
 
   // creating formatted object for d3 graph
