@@ -5,9 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 // Any directories you will be adding code/files into, need to be added to this array so webpack will pick them up
-const defaultInclude = path.resolve(__dirname, 'src')
+const defaultInclude = path.resolve(__dirname, './app/src');
 
 module.exports = {
+  entry: './app/src',
   module: {
     rules: [
       {
@@ -19,9 +20,10 @@ module.exports = {
         include: [defaultInclude, path.resolve(__dirname, 'node_modules/codemirror/lib/codemirror.css'), path.resolve(__dirname, 'node_modules/codemirror/theme/dracula.css'), path.resolve(__dirname, './node_modules/react-tabs/style/react-tabs.css'), path.resolve(__dirname, './node_modules/react-tree-graph/dist/style.css')]
       },
       {
-        test: /\.jsx?$/,
-        use: { loader: 'babel-loader', options: {presets: ['@babel/preset-env']} },
-        include: defaultInclude
+        test: /\.js|\.jsx$/,
+        use: { loader: 'babel-loader', options: {presets: ['@babel/preset-env', '@babel/preset-react']} },
+        include: defaultInclude,
+        exclude: '/node_modules/'
       },
       {
         test: /\.(jpe?g|png|gif)$/,
@@ -34,6 +36,9 @@ module.exports = {
         include: defaultInclude
       }
     ]
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
   },
   target: 'electron-renderer',
   plugins: [
