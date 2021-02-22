@@ -1,0 +1,52 @@
+{
+"appId": "com.QLens.app",
+    "asar": true,
+    "productName": "QLens",
+    "directories": {
+      "app": ".",
+      "output": "dist"
+    },
+    "files": [
+      "package.json",
+      "app/**/*",
+      "node_modules",
+      "app/node_modules",
+      "dist/index.html",
+      "dist/bundle.css",
+      "dist/main.js"
+    ],
+    "extraFiles": [
+      "credentials"
+    ],
+    "dmg": {
+      "background": null,
+      "backgroundColor": "#ffffff",
+      "window": {
+        "width": "400",
+        "height": "300"
+      },
+      "contents": [
+        {
+          "x": 100,
+          "y": 100
+        },
+        {
+          "x": 300,
+          "y": 100,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility"
+    }
+}

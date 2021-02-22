@@ -6,10 +6,7 @@ const MongoClient = require('mongodb').MongoClient;
 const { exec } = require('child_process');
 
 exports.createMongoSchema = (req, res, next) => {
-  if (fs.existsSync(path.join(__dirname, '../../qlens.json'))) {
-    fs.unlinkSync(path.join(__dirname, '../../qlens.json'));
-    console.log('file Deleted');
-  }
+
   let userURI = req.body.val;
 
   // Connect to mongodb
@@ -28,19 +25,23 @@ exports.createMongoSchema = (req, res, next) => {
       console.log(`stdout: ${stdout}`);
     });
   });
-  let filepath = path.join(__dirname, '../../');
+  let filepath = path.join(__dirname, '../../../');
   let file;
   // Watching for changes in root directory. (The adding of json file with schema)
   const watcher = fs.watch(filepath, (event, trigger) => {
     console.log(`there was a ${event} at ${trigger}`);
     // Once change happens (file is added) read schema.json file
-    file = fs.readFileSync(path.join(__dirname, '../../qlens.json'));
+    file = fs.readFileSync(path.join(__dirname, '../../../qlens.json'));
     //  console.log('SERVER.JS =========> ', Buffer.from(file).toString())
     res.locals.data = Buffer.from(file).toString();
     if (res.locals.data) {
       // send locals data to client, close this watch function
       res.status(200).json(res.locals.data);
       watcher.close();
+      if (fs.existsSync(path.join(__dirname, '../../../qlens.json'))) {
+        fs.unlinkSync(path.join(__dirname, '../../../qlens.json'));
+        console.log('file Deleted');
+      }
     }
   });
 };

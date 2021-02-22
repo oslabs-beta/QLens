@@ -28,6 +28,8 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 const server = require('./server/server')
+const express = require('express');
+
 
 // Add React extension for development
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
@@ -55,6 +57,7 @@ if (process.platform === 'win32') {
 
 function createWindow() {
   // Create the browser window.
+  express()
   mainWindow = new BrowserWindow({
     width: 1024, // width of the window
     height: 768, // height of the window
@@ -78,8 +81,12 @@ function createWindow() {
     })
   } else {
     indexPath = url.format({
-      protocol: 'file:',
-      pathname: path.join(__dirname, 'dist', 'index.html'),
+      // protocol: 'file:',
+      // pathname: path.join(__dirname, '../dist/index.html'),
+      // slashes: true
+      protocol: 'http:',
+      host: 'localhost:8080',
+      pathname: 'index.html',
       slashes: true
     })
   }

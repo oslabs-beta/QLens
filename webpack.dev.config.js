@@ -4,10 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { spawn } = require('child_process')
 
 // Any directories you will be adding code/files into, need to be added to this array so webpack will pick them up
-const defaultInclude = path.resolve(__dirname, 'src')
+const defaultInclude = path.resolve(__dirname, './app/src');
 
 module.exports = {
-
+  entry: './app/src',
   module: {
     rules: [
       {
@@ -54,9 +54,9 @@ module.exports = {
   ],
   devtool: 'cheap-source-map',
   devServer: {
-    // proxy: {
-    //   '/getURI': 'localhost:3000',
-    // },
+    proxy: {
+      '/': 'localhost:3000',
+    },
     contentBase: path.resolve(__dirname, 'dist'),
     stats: {
       colors: true,

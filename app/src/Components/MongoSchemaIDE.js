@@ -5,8 +5,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 require('codemirror/mode/javascript/javascript');
 import '../public/codemirror.css';
-import '../../node_modules/codemirror/lib/codemirror.css';
-import '../../node_modules/codemirror/theme/dracula.css';
+import '../../../node_modules/codemirror/lib/codemirror.css';
+import '../../../node_modules/codemirror/theme/dracula.css';
 import DownloadBtn from './DownloadBtn'
 const _ = require('lodash');
 const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
