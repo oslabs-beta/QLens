@@ -1,52 +1,55 @@
 {
-"appId": "com.QLens.app",
-    "asar": true,
-    "productName": "QLens",
-    "directories": {
-      "app": ".",
-      "output": "dist"
-    },
-    "files": [
-      "package.json",
-      "app/**/*",
-      "node_modules",
-      "app/node_modules",
-      "dist/index.html",
-      "dist/bundle.css",
-      "dist/main.js"
-    ],
-    "extraFiles": [
-      "credentials"
-    ],
-    "dmg": {
-      "background": null,
-      "backgroundColor": "#ffffff",
-      "window": {
-        "width": "400",
-        "height": "300"
+  "appId": "com.QLens.app",
+      "asar": true,
+      "productName": "QLens",
+      "directories": {
+        "app": ".",
+        "output": "dist"
       },
-      "contents": [
-        {
-          "x": 100,
-          "y": 100
+      "files": [
+        "package.json",
+        "app/package.json",
+        "app/**/*",
+        "node_modules/**/*",
+        "app/node_modules/**/*",
+        "dist/index.html",
+        "dist/bundle.css",
+        "dist/main.js",
+        "app/qlens.json"
+      ],
+      "extraFiles": [
+        "credentials"
+      ],
+      "extraResources": ["./extraResources/**"],
+      "dmg": {
+        "background": null,
+        "backgroundColor": "#ffffff",
+        "window": {
+          "width": "400",
+          "height": "300"
         },
-        {
-          "x": 300,
-          "y": 100,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "mac": {
-      "target": "dmg",
-      "category": "public.app-category.utilities"
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": "AppImage",
-      "category": "Utility"
-    }
-}
+        "contents": [
+          {
+            "x": 100,
+            "y": 100
+          },
+          {
+            "x": 300,
+            "y": 100,
+            "type": "link",
+            "path": "/Applications"
+          }
+        ]
+      },
+      "mac": {
+        "target": "dmg",
+        "category": "public.app-category.utilities"
+      },
+      "win": {
+        "target": "nsis"
+      },
+      "linux": {
+        "target": "AppImage",
+        "category": "Utility"
+      }
+  }

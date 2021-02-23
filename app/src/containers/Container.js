@@ -9,6 +9,8 @@ import PlaygroundButton from '../Components/PlaygroundButton';
 import TreeGraph from '../Components/TreeGraph';
 import Loader from '../Components/Loader';
 import Ribbon from '../Components/Ribbon';
+import fetch from 'electron-fetch'
+import {ipcRenderer} from "electron";
 
 const Container = () => {
   const [schemaData, setSchemaData] = useState({});
@@ -24,25 +26,12 @@ const Container = () => {
     e.preventDefault();
     console.log('submit worked');
     setLoading(true);
-    fetch('http://localhost:3000/getURI', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
-      body: JSON.stringify({
-        val: uriId,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log('data string from fetch', data)
-        setSchemaData(JSON.parse(data));
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
+    ipcRenderer.send('URI', uriId)
   };
 
+  ipcRenderer.on('URI-reply', (event, arg) => {
+    console.log(arg)
+  })
   // updating state with the MongoDBRUI from input field
   const getUri = (e) => {
     setUriId(e.target.value);
@@ -74,6 +63,8 @@ const Container = () => {
     fetch('http://localhost:3000/selectedSchemas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      // body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
+
       body: JSON.stringify({ selectedSchemas, uriId }),
     })
       .then((res) => res.json())
