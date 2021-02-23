@@ -1,42 +1,32 @@
-// main.js
-
 'use strict'
-///////////////////////////////////////////////////////
-// const express = require('express')
-// const expressApp = express()
-// const cors = require("cors");
-// // Connect to mongodb
-// const MongoClient = require("mongodb").MongoClient;
-// // Executing terminal commands using JS
-// const { exec } = require("child_process");
-///////////////////////////////////////////////////////
-
-// // Test express -------------
-// expressApp.use(cors())
-// expressApp.use(express.json())
-// expressApp.post('/getURI', (req, res, next) => {
-//   console.log(req.body)
-//   res.status(200).json(req.body)
-// })
-
-// expressApp.listen(3000, () => console.log('app workingon port 3000'))
-
-// --------------------------
-
 // Import parts of electron to use
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 const server = require('./server/server')
 const express = require('express');
+const { ipcMain } = require('electron')
+const process = require('process')
 
+const fs = require('fs');
+const os = require('os')
+// Connect to mongodb
+const MongoClient = require('mongodb').MongoClient;
+// Executing terminal commands using JS
+const { exec } = require('child_process');
+// const myCmd = spawn('ls', args, { shell: true });
+// const fixPath = require('fix-path')
+// require('../node_modules/extract-mongo-schema')
+// require('extract-mongo-schema')
+
+// if(process.env.NODE_ENV === 'production') fixPath()
 
 // Add React extension for development
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
 
 // Keep a reference for dev mode
 let dev = false
@@ -53,11 +43,8 @@ if (process.platform === 'win32') {
   app.commandLine.appendSwitch('force-device-scale-factor', '1')
 }
 
-
-
 function createWindow() {
   // Create the browser window.
-  express()
   mainWindow = new BrowserWindow({
     width: 1024, // width of the window
     height: 768, // height of the window
@@ -68,7 +55,7 @@ function createWindow() {
   })
 
   // and load the index.html of the app.
-  let indexPath
+  let indexPath;
 
   // Determine the correct index.html file
   // (created by webpack) to load in dev and production
@@ -81,12 +68,8 @@ function createWindow() {
     })
   } else {
     indexPath = url.format({
-      // protocol: 'file:',
-      // pathname: path.join(__dirname, '../dist/index.html'),
-      // slashes: true
-      protocol: 'http:',
-      host: 'localhost:8080',
-      pathname: 'index.html',
+      protocol: 'file:',
+      pathname: path.join(__dirname, '../dist/index.html'),
       slashes: true
     })
   }
@@ -118,7 +101,10 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+  // otherWindow()
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -136,3 +122,45 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+const tempFilePath = path.resolve(os.homedir(), 'desktop', 'qlens.json')
+
+
+
+if (!fs.existsSync(path.join(process.resourcesPath, "/schemafiles/"))) {
+  fs.mkdirSync(path.join(process.resourcesPath, "/schemafiles/"));
+}
+let testpath = path.join(process.resourcesPath, "/schemafiles/qlens.json")
+
+
+ipcMain.on('URI', (event, arg) => {
+    // Connect to mongodb
+    MongoClient.connect(arg).then(() => {
+      const query = `extract-mongo-schema -d "${arg}" -o ${testpath}`;
+      //Using exec to run extract-mongo-schema package in terminal
+      exec(query, (error, stdout, stderr) => {
+        event.sender.send('URI-reply', path.join(process.resourcesPath))
+    })
+  })
+
+  let filepath = path.join(__dirname, '../');
+  let file;
+  let extractedSchemas;
+  // Watching for changes in root directory. (The adding of json file with schema)
+  // const watcher = fs.watch(filepath, (event, trigger) => {
+  //   console.log(`there was a ${event} at ${trigger}`);
+  //   // Once change happens (file is added) read schema.json file
+  //   file = fs.readFileSync(path.join(__dirname, '../qlens.json'));
+  //   //  console.log('SERVER.JS =========> ', Buffer.from(file).toString())
+  //   extractedSchemas = Buffer.from(file).toString();
+  //   if (extractedSchemas) {
+  //     // send locals data to client, close this watch function
+  //     watcher.close();
+  //     if (fs.existsSync(path.join(__dirname, '../qlens.json'))) {
+  //       fs.unlinkSync(path.join(__dirname, '../qlens.json'));
+  //       console.log('file Deleted');
+  //     }
+  //     event.reply('URI-reply', extractedSchemas)
+  //   }
+  // })
+});
