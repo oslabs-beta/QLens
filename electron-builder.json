@@ -4,7 +4,8 @@
       "productName": "QLens",
       "directories": {
         "app": ".",
-        "output": "dist"
+        "output": "dist",
+        "buildResources": "build-res"
       },
       "files": [
         "package.json",
@@ -15,7 +16,8 @@
         "dist/index.html",
         "dist/bundle.css",
         "dist/main.js",
-        "app/qlens.json"
+        "app/qlens.json",
+        "build-res/icon.png"
       ],
       "extraFiles": [
         "credentials"
