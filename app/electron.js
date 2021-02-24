@@ -8,6 +8,7 @@ const process = require('process');
 const server = require('./server/schema');
 const fs = require('fs');
 const os = require('os');
+const fixPath = require('fix-path');
 // Connect to mongodb
 const MongoClient = require('mongodb').MongoClient;
 // Executing terminal commands using JS
@@ -120,11 +121,14 @@ if (!fs.existsSync(path.join(process.resourcesPath, "/schemafiles/"))) {
 }
 let testpath = path.join(process.resourcesPath, "/schemafiles/qlens.json")
 
+if (process.resourcesPath !== 'win32') fixPath()
 
 ipcMain.on('URI', (event, arg) => {
+
     // Connect to mongodb
     MongoClient.connect(arg).then(() => {
       const query = `extract-mongo-schema -d "${arg}" -o ${testpath}`;
+      event.sender.send('console', process.platform)
       //Using exec to run extract-mongo-schema package in terminal
       exec(query, (error, stdout, stderr) => {
         event.sender.send('URI-reply', path.join(process.resourcesPath))
