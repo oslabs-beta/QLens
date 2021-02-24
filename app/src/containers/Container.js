@@ -22,15 +22,16 @@ const Container = () => {
 
   // enter MongoDBURI to receive schemas
   // submit function fetches schemas from backend when Submit button is clicked
+
   const submit = (e) => {
     e.preventDefault();
-    console.log('submit worked');
     setLoading(true);
     ipcRenderer.send('URI', uriId)
   };
 
   ipcRenderer.on('URI-reply', (event, arg) => {
-    console.log(arg)
+    setSchemaData(JSON.parse(arg));
+    setLoading(false);
   })
   // updating state with the MongoDBRUI from input field
   const getUri = (e) => {
@@ -58,24 +59,14 @@ const Container = () => {
     for (let i = 0; i < clicked.length; i += 1) {
       selectedSchemas[clicked[i]] = schemaData[clicked[i]];
     }
-    console.log('selectedSchemas is ', selectedSchemas);
     setSelectedSchemaData([selectedSchemas]);
-    fetch('http://localhost:3000/selectedSchemas', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      // body: JSON.stringify({val: 'mongodb+srv://judy:coderepforum@coderep-forum-idfny.mongodb.net/Forum?retryWrites=true&w=majority'})
-
-      body: JSON.stringify({ selectedSchemas, uriId }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setGraphQLSchema(data);
-      })
-      .catch((error) => {
-        console.log('Error', error);
-      });
-    setClicked([]);
+    ipcRenderer.send('selectedSchemas', {selectedSchemas, uriId})
   };
+
+  ipcRenderer.on('returnedSchemas', (event, arg) => {
+    setGraphQLSchema(arg)
+    setClicked([]);
+  })
 
   // creating formatted object for d3 graph
   let schemaChart = {};

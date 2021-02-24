@@ -1,39 +1,31 @@
 'use strict'
 // Import parts of electron to use
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
-const url = require('url')
-const server = require('./server/server')
-const express = require('express');
-const { ipcMain } = require('electron')
-const process = require('process')
-
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+const url = require('url');
+const { ipcMain } = require('electron');
+const process = require('process');
+const server = require('./server/schema');
 const fs = require('fs');
-const os = require('os')
+const os = require('os');
 // Connect to mongodb
 const MongoClient = require('mongodb').MongoClient;
 // Executing terminal commands using JS
 const { exec } = require('child_process');
-// const myCmd = spawn('ls', args, { shell: true });
-// const fixPath = require('fix-path')
-// require('../node_modules/extract-mongo-schema')
-// require('extract-mongo-schema')
-
-// if(process.env.NODE_ENV === 'production') fixPath()
 
 // Add React extension for development
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 // Keep a reference for dev mode
-let dev = false
+let dev = false;
 
 // Determine the mode (dev or production)
 if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) || /[\\/]electron[\\/]/.test(process.execPath)) {
-  dev = true
+  dev = true;
 }
 
 // Temporary fix for broken high-dpi scale factor on Windows (125% scaling)
@@ -123,10 +115,6 @@ app.on('activate', () => {
   }
 })
 
-const tempFilePath = path.resolve(os.homedir(), 'desktop', 'qlens.json')
-
-
-
 if (!fs.existsSync(path.join(process.resourcesPath, "/schemafiles/"))) {
   fs.mkdirSync(path.join(process.resourcesPath, "/schemafiles/"));
 }
@@ -143,24 +131,24 @@ ipcMain.on('URI', (event, arg) => {
     })
   })
 
-  let filepath = path.join(__dirname, '../');
+  let filepath = path.join(process.resourcesPath, "/schemafiles")
   let file;
   let extractedSchemas;
   // Watching for changes in root directory. (The adding of json file with schema)
-  // const watcher = fs.watch(filepath, (event, trigger) => {
-  //   console.log(`there was a ${event} at ${trigger}`);
-  //   // Once change happens (file is added) read schema.json file
-  //   file = fs.readFileSync(path.join(__dirname, '../qlens.json'));
-  //   //  console.log('SERVER.JS =========> ', Buffer.from(file).toString())
-  //   extractedSchemas = Buffer.from(file).toString();
-  //   if (extractedSchemas) {
-  //     // send locals data to client, close this watch function
-  //     watcher.close();
-  //     if (fs.existsSync(path.join(__dirname, '../qlens.json'))) {
-  //       fs.unlinkSync(path.join(__dirname, '../qlens.json'));
-  //       console.log('file Deleted');
-  //     }
-  //     event.reply('URI-reply', extractedSchemas)
-  //   }
-  // })
+  const watcher = fs.watch(filepath, (events, trigger) => {
+    // console.log(`there was a ${event} at ${trigger}`);
+    // Once change happens (file is added) read schema.json file
+    file = fs.readFileSync(path.join(process.resourcesPath, "/schemafiles/qlens.json"));
+    //  console.log('SERVER.JS =========> ', Buffer.from(file).toString())
+    extractedSchemas = Buffer.from(file).toString();
+    if (extractedSchemas) {
+      // send locals data to client, close this watch function
+      watcher.close();
+      if (fs.existsSync(path.join(process.resourcesPath, "/schemafiles/qlens.json"))) {
+        fs.unlinkSync(path.join(process.resourcesPath, "/schemafiles/qlens.json"));
+        console.log('file Deleted');
+      }
+      event.sender.send('URI-reply', extractedSchemas)
+    }
+  })
 });
