@@ -1,8 +1,9 @@
 const graphql = require('graphql');
 var cloneDeep = require('lodash.clonedeep');
-const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 var pluralize = require('pluralize');
+const { ipcMain } = require('electron')
+
 
 const {
   GraphQLObjectType,
@@ -26,9 +27,9 @@ function addWhiteSpace(number) {
   return whiteSpace;
 }
 
-converter.migrateSchema = (req, res, next) => {
-  const url = req.body.uriId;
-  const data = req.body.selectedSchemas;
+ipcMain.on('selectedSchemas', (event, arg) => {
+  const url = arg.uriId;
+  const data = arg.selectedSchemas;
   console.log(data);
   // Function for capitalization
   const capitalize = (s) => {
@@ -281,16 +282,9 @@ converter.migrateSchema = (req, res, next) => {
     fields: rootQueryObj,
   });
 
-  res.locals.types = stringObj;
-  res.locals.queries = sendRootQueryObj;
-  res.locals.mutations = mutationSchema;
-  res.locals.mongoSchema = buildMongoStr;
+  event.sender.send("returnedSchemas", {types: stringObj, queries: sendRootQueryObj, mutations: mutationSchema, mongoSchema: buildMongoStr})
+})
 
-  res.locals.convertedSchema = new GraphQLSchema({
-    query: RootQuery,
-  });
-  next();
-};
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: rootQueryObj,
