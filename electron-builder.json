@@ -1,10 +1,14 @@
 {
   "appId": "com.QLens.app",
-  "publish":
+  "afterSign": "notarize.js",
+  "publish": [
     {
-      "provider": "github",
-      "token": "0b26911bfe3e37f5cb71f9f06525494dabc5548e"
-    },
+    "provider": "github",
+    "owner": "oslabs-beta",
+    "repo": "QLens",
+    "token": "680c09ac62533c95f7cf3c593e0474363be3eff8"
+    }
+  ],
       "asar": true,
       "productName": "QLens",
       "directories": {
@@ -29,6 +33,7 @@
       ],
       "extraResources": ["./extraResources/**"],
       "dmg": {
+        "sign": false,
         "background": null,
         "backgroundColor": "#ffffff",
         "window": {
@@ -50,7 +55,11 @@
       },
       "mac": {
         "target": "dmg",
-        "category": "public.app-category.utilities"
+        "category": "public.app-category.utilities",
+        "hardenedRuntime": true,
+        "gatekeeperAssess": false,
+        "entitlements": "entitlements.plist",
+        "entitlementsInherit": "entitlements.plist"
       },
       "win": {
         "target": "nsis"

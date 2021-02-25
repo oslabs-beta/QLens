@@ -12,8 +12,6 @@ const _ = require('lodash');
 const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const [data, setData] = useState([]);
   const [graphData, setGraphData] = useState({});
-  // console.log('SELECTED SCHEMAS WOAAAAA', graphQLSchema);
-  // console.log("UPDATED ROOTQUERY OBJ+++", graphQLSchema)
   // iterates over the graphQLSchema and removes the double quotes
   const eliminateQuotes = (obj) => {
     let str = '';
@@ -22,9 +20,9 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
     }
     return str;
   }
+  // function creates a new line to format the schemas
   const newLinePillar = (str) => {
     if (str === undefined) return;
-    // console.log(str);
     let newStr = '';
     let array = str.split('');
     for (let i = 0; i < array.length; i+=1) {
@@ -39,6 +37,7 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
     }
     return newStr;
   }
+  // adds a new line where there is a comma
   const newLineComma = (str) => {
     let newStr = '';
     let array = str.split('');
@@ -63,18 +62,13 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
   const newTypes = eliminateQuotes(graphQLSchema.types);
   const newQueries = eliminateQuotes(graphQLSchema.queries);
   const commaLessMutation = eliminateQuotes(graphQLSchema.mutation);
-  // const typeQ = newLinePillar(newTypes);
   const rootQ = newLinePillar(newQueries);
   const formattedTypes = newLinePillar(newTypes);
   const rootM = newLinePillar(commaLessMutation);
-  // const typeOutput = newLineComma(newTypes);
-  // const mutationNL = newLineComma(commaLessMutation);
   const combineQueries = (query1, query2, query3) => {
     return query1 + query2 + query3;
   }
   const combined = combineQueries(formattedTypes, rootQ, rootM);
-  // console.log('ROOTQ =========>', rootQ)
-  // const newS =
   return(
     <div className="codeboxContainer">
       <Tabs>
@@ -96,8 +90,6 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
               lineWrapping: true,
               theme: 'dracula',
               lineNumbers: true,
-              // lineSeparator: ",",
-              // autoCloseBrackets: true,
               cursorScrollMargin: 48,
               indentUnit: 2,
               tabSize: 2,
@@ -118,13 +110,12 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
             lineWrapping: true,
             theme: 'dracula',
             lineNumbers: true,
-            // autoCloseBrackets: true,
             cursorScrollMargin: 48,
             indentUnit: 2,
             tabSize: 2,
             styleActiveLine: true,
             smartIndent: true,
-            // lineSeparator: ",",
+
           }}
           />
         </div>

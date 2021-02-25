@@ -1,14 +1,4 @@
 
-/* .codeboxContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
-  gap: 0px 0px;
-  grid-template-areas:
-    ". .";
-  height: 75vh;
-} */
-
 .codebox {
   border: 1px solid black;
 }
