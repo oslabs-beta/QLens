@@ -73,7 +73,14 @@ How you can contribute:
 * [Steven LaBrie](https://github.com/danieldolich)
 * [Judy Tan](https://github.com/Judanator)
 * [Cho Yee Win Aung](https://github.com/choyeewinag)
-* [Jake Diorio](https://github.com/stevenlabrie)
+* [Jake Diorio](https://github.com/jdiorio2393)
 
 ## License
 This project is licensed under the MIT License
+
+## Upcoming Features 
+Currently QLens does not support playground functionality and has limited functionality for creating resolvers. Currently we are working on implementing the following features: 
+* Playground functionality for testing queries and mutations 
+* Generating mutations for updating 
+* Generating resolvers for Mongo documents with "ref" or foreign keys 
+* Allowing for conversion of SQL databases
