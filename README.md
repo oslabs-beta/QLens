@@ -12,7 +12,9 @@
 
 # QLens 
 
-QLens — See your GraphQL Schemas materialize before your eyes! 
+Using GraphQL with MongoDB can cause data mismatch and schema duplication requiring developers to write similar code multiple times. This can significantly slow down development time. In addition, there aren't many libraries that tackle MongoDB conversion to GraphQL schemas. Most libraries tackling this issue are focused on relational databases. QLens solves that problem. 
+
+QLens — Open source tool to extract metadata from your MongoDB database to generate GraphQL schemas, resolvers and server setup.
 
 Accelerated by [OS Labs](https://github.com/oslabs-beta/)
 
