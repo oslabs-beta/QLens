@@ -1,5 +1,10 @@
 {
   "appId": "com.QLens.app",
+  "publish":
+    {
+      "provider": "github",
+      "token": "0b26911bfe3e37f5cb71f9f06525494dabc5548e"
+    },
       "asar": true,
       "productName": "QLens",
       "directories": {
