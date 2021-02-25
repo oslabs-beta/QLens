@@ -4,7 +4,7 @@ import '../public/loader.css';
 const Loader = () => {
   return (
     <Fragment>
-      <div class="lds-roller">
+      <div className="lds-roller">
         <div></div>
         <div></div>
         <div></div>
@@ -14,7 +14,7 @@ const Loader = () => {
         <div></div>
         <div></div>
       </div>
-      <h1 class="loading-text">Loading...</h1>
+      <h1 className="loading-text">Loading...</h1>
     </Fragment>
   );
 };

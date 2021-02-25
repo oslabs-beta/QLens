@@ -54,10 +54,11 @@ body {
 }
 
 #box {
-  background: white;
+  border: 4px solid #8be9fd;
+  border-radius: 3px;
   margin: auto;
   margin-top: 2%;
-  max-width: 70%;
+  max-width: 95%;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
@@ -78,23 +79,23 @@ body {
 
 .disableAddSelected {
   display: block;
-  width: 250px;
+  width: 100%;
   height: 40px;
   line-height: 40px;
   font-size: 13px;
   font-family: monospace;
   text-decoration: none;
+  /* background-color: red; */
   color: #333;
-  border: 2px solid #333;
   letter-spacing: 2px;
   text-align: center;
   position: relative;
   transition: all .35s;
-  margin-left: 20px;
+  border-radius: 5px;
 }
 
 .disableAddSelected:disabled {
-  background-color: darkgray;
+  /* background-color: blue; */
 }
 
 .container {
@@ -122,7 +123,33 @@ body {
 
 .dropDown {
   grid-area: dropDown;
+  display: block;
   width: 100%;
+}
+
+.menuItems {
+  line-height: 40px;
+  font-size: 13px;
+  font-family: monospace;
+  text-decoration: none;
+  color: #333;
+  letter-spacing: 2px;
+  /* text-align: center; */
+  position: relative;
+  transition: all .35s;
+  /* margin-left: 37px;
+  margin-top: 2%; */
+}
+
+.checkboxForm {
+  display:block;
+  width: 100%;
+
+}
+
+.tree {
+  text-align: center;
+
 }
 
 .codeboxContainer {
@@ -172,7 +199,7 @@ svg.custom .node circle {
 }
 
 svg.custom .node text {
-	font-size: 16px;
+	font-size: 18px;
 	background-color: #444;
 	fill: #f4f4f4;
 	text-shadow: 0 1px 4px black;
@@ -193,7 +220,7 @@ svg.custom path.link {
 
 .AddSelectedSchemasButton{
   display: block;
-  width: 250px;
+  width: 100%;
   height: 40px;
   line-height: 40px;
   font-size: 13px;
@@ -205,8 +232,9 @@ svg.custom path.link {
   text-align: center;
   position: relative;
   transition: all .35s;
-  margin-left: 37px;
-  margin-top: 2%;
+  margin-top: 6%;
+  margin-bottom: 3%;
+  border-radius: 5px;
 }
 
 .AddSelectedSchemasButton span {
@@ -306,7 +334,7 @@ svg.custom path.link {
   position: relative;
   padding: 4%;
   width: 50%;
-  background-color: #ffe593;
+  background-color: #61dbfb;
   font-size: 17px;
 }
 
@@ -353,7 +381,7 @@ svg.custom path.link {
 /* ================================ DOWNLOAD BUTTON ================================  */
 .downloadBtn {
   border-radius: 4px;
-  background-color: #ffe593;
+  background-color: #61dbfb;
   border: none;
   text-align: center;
   font-size: 18px;
@@ -434,14 +462,16 @@ svg.custom path.link {
   text-transform: uppercase;
   display: inline-block;
   text-align: center;
-  width: 150px;
+  width: 100%;
+  height: 40px;
   font-weight: bold;
   padding: 5px 0px;
-  border: 3px solid #ffe593;
+  /* border: 3px solid #61dbfb; */
   border-radius: 2px;
   position: relative;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
   z-index: 2;
+  border-radius: 5px;
 }
 .resetButton:before {
   -webkit-transition: 0.5s all ease;
@@ -453,7 +483,7 @@ svg.custom path.link {
   bottom: 0;
   opacity: 0;
   content: '';
-  background-color: #ffe593;
+  background-color: #61dbfb;
   z-index: -1;
 }
 .resetButton:hover:before {

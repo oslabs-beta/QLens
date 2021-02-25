@@ -40,10 +40,18 @@ const Container = () => {
     window.location.reload(true);
   }
 
-  ipcRenderer.on('URI-reply', (event, arg) => {
-    setSchemaData(JSON.parse(arg));
-    setLoading(false);
-  })
+  useEffect(() => {
+    ipcRenderer.on('URI-reply', (event, arg) => {
+      setSchemaData(JSON.parse(arg));
+      setLoading(false);
+    })
+    ipcRenderer.on('returnedSchemas', (event, arg) => {
+      setGraphQLSchema(arg)
+      setClicked([]);
+    })
+  }, [])
+
+
   // updating state with the MongoDBRUI from input field
   const getUri = (e) => {
     setUriId(e.target.value);
@@ -76,10 +84,7 @@ const Container = () => {
     ipcRenderer.send('selectedSchemas', {selectedSchemas, uriId})
   };
 
-  ipcRenderer.on('returnedSchemas', (event, arg) => {
-    setGraphQLSchema(arg)
-    setClicked([]);
-  })
+
 
   // creating formatted object for d3 graph
   let schemaChart = {};
@@ -135,6 +140,7 @@ const Container = () => {
             addCheckmark={addCheckmark}
             toggleBtn={toggleASSBtn}
             toggleCheckbox={toggleCheckbox}
+            resetBtn={resetButton}
           />
           {Object.keys(schemaChart).length > 0 ? (
             <TreeGraph schemaChart={schemaChart} />
@@ -145,9 +151,9 @@ const Container = () => {
           />
         </div>
         <Ribbon/>
-        <ResetButton
-          resetBtn={resetButton}
-        />
+        {/* <ResetButton
+          resetBtn={resetButton} */}
+        {/* /> */}
       </div>
     </Fragment>
   );

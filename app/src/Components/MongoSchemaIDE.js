@@ -125,4 +125,4 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
     </div>
   )
 }
-export default MongoSchemaIDE;
+export default MongoSchemaIDE;{/*  */}
