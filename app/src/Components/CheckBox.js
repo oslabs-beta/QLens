@@ -6,15 +6,12 @@ const CheckBox = (props) => {
     <div className="checkboxContainer" id="box">
       <form className="checkboxForm">
         <label className="checkboxLabel">
-          <input className="checkbox" type="checkbox" name={props.name} onClick={props.clicked} />
-          {/* name is the key which is the obj */}
+          <input className="checkbox" type="checkbox" name={props.name} onClick={props.clicked} disabled={props.toggleCheckbox}/>
           {props.name}
         </label>
       </form>
     </div>
   )
 }
-
-
 
 export default CheckBox;

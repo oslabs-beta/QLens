@@ -1,5 +1,5 @@
 import React from 'react'
-import "./public/index.css";
+import "../public/index.css";
 const { ipcRenderer } = require('electron')
 
 const AutoUpdate = () => {
@@ -27,12 +27,12 @@ const AutoUpdate = () => {
     };
 
     return (
-    <div id="notification" class="hidden">
+    <div id="notification" className="hidden">
         <p id="message"></p>
-        <button id="close-button" onClick="closeNotification()">
+        <button id="close-button" onClick={closeNotification}>
         Close
         </button>
-        <button id="restart-button" onClick="restartApp()" class="hidden">
+        <button id="restart-button" onClick={restartApp} className="hidden">
         Restart
         </button>
     </div>

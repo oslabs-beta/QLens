@@ -11,6 +11,7 @@ import Loader from '../Components/Loader';
 import Ribbon from '../Components/Ribbon';
 import fetch from 'electron-fetch'
 import {ipcRenderer} from "electron";
+import ResetButton from '../Components/ResetButton'
 
 const Container = () => {
   const [schemaData, setSchemaData] = useState({});
@@ -20,6 +21,10 @@ const Container = () => {
   const [graphQLSchema, setGraphQLSchema] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const [toggleASSBtn, setToggleASSBtn] = useState(false)
+  const [toggleInput, setToggleInput] = useState(false)
+  const [toggleCheckbox, setToggleCheckbox] = useState(false)
+
   // enter MongoDBURI to receive schemas
   // submit function fetches schemas from backend when Submit button is clicked
 
@@ -27,7 +32,13 @@ const Container = () => {
     e.preventDefault();
     setLoading(true);
     ipcRenderer.send('URI', uriId)
+    setToggleASSBtn(!toggleASSBtn)
+    setToggleInput(!toggleInput)
   };
+
+  const resetButton = () => {
+    window.location.reload(true);
+  }
 
   ipcRenderer.on('URI-reply', (event, arg) => {
     setSchemaData(JSON.parse(arg));
@@ -54,12 +65,14 @@ const Container = () => {
   // sendSchema function builds the selectedSchemas object with the schemas that are selected in the DropDownMenu
   // sends the selectedSchemas to the backend for migration
   const sendSchemas = (e) => {
-    setSelectedSchemaData([]);
     let selectedSchemas = {};
     for (let i = 0; i < clicked.length; i += 1) {
       selectedSchemas[clicked[i]] = schemaData[clicked[i]];
     }
     setSelectedSchemaData([selectedSchemas]);
+    setClicked([])
+    setToggleASSBtn(!toggleASSBtn)
+    setToggleCheckbox(!toggleCheckbox)
     ipcRenderer.send('selectedSchemas', {selectedSchemas, uriId})
   };
 
@@ -110,15 +123,18 @@ const Container = () => {
             submitbtn={submit}
             sendSchemas={sendSchemas}
             addCheckmark={addCheckmark}
+            toggleInput= {toggleInput}
           />
           <PlaygroundButton />
         </div>
         <div className="grid-container">
-          <DropDownMenu
+        <DropDownMenu
             schemaData={schemaData}
             uriData={uriId}
             sendSchemas={sendSchemas}
             addCheckmark={addCheckmark}
+            toggleBtn={toggleASSBtn}
+            toggleCheckbox={toggleCheckbox}
           />
           {Object.keys(schemaChart).length > 0 ? (
             <TreeGraph schemaChart={schemaChart} />
@@ -129,6 +145,9 @@ const Container = () => {
           />
         </div>
         <Ribbon/>
+        <ResetButton
+          resetBtn={resetButton}
+        />
       </div>
     </Fragment>
   );

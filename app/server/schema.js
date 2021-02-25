@@ -4,7 +4,6 @@ const MongoClient = require('mongodb').MongoClient;
 var pluralize = require('pluralize');
 const { ipcMain } = require('electron')
 
-
 const {
   GraphQLObjectType,
   GraphQLString,
@@ -14,7 +13,6 @@ const {
   GraphQLList,
   GraphQLNonNull,
 } = graphql;
-
 
 const converter = {};
 let rootQueryObj = {};
@@ -264,10 +262,8 @@ ipcMain.on('selectedSchemas', (event, arg) => {
       `${addWhiteSpace(4)}},|`;
 
     // resetting the fieldsObject
-    //  console.log('this is stringObj ====>', strFieldsObj);
     fieldsObj = {};
     strFields = '';
-    // mutationObjStr = '';
     mutationToString = '';
     mongoSchemaStr = '';
   }
