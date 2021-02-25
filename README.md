@@ -35,9 +35,6 @@ Please see below gif to reset the URI:
 
 ![QLens.gif](./gif/reset.gif)
 
-## Hierarchy Display:
-The first thing you’ll notice in the center of the screen is a graph displayed to visualize the hierarchy of your non-relational database schemas in a tree-like structure.
-
 ## 2. Select GraphQL Schemas
 On the right side of the screen is where your life just got a whole lot easier. You will find your GraphQL schema boilerplate already entirely formatted for your project complete with resolvers and mutations. At the top of the text editor, you will see a tab to toggle to see your MongoDB schemas in their own editor. Here is where you can either copy your GraphQL schemas and paste right into your code editor, or click the download button. <br><br>
 
