@@ -19,7 +19,7 @@ QLens — Open source tool to extract metadata from your MongoDB database to gen
 Accelerated by [OS Labs](https://github.com/oslabs-beta/)
 
 ## Getting Started
-Download QLens onto your desktop by going to  [www.qlensapp.com](https://qlensapp.com)
+Download QLens onto your desktop by going to  [www.qlensapp.com](http://qlensapp.com)
 
 ## Features
 * GraphQL schema (including resolvers, and mutations) 
