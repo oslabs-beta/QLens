@@ -62,7 +62,7 @@ We would love for you to test our application and submit any issues you encouter
 - Webpack
 - Enzyme
 - React-Testing-Library
-- spectron
+- Spectron
 
 How you can contribute: 
 * Bug fixes
@@ -70,7 +70,7 @@ How you can contribute:
 * Submitting or resolving GitHub issues
 * Help market our application
 ## Developers
-* [Steven LaBrie](https://github.com/danieldolich)
+* [Steven LaBrie](https://github.com/stevenlabrie)
 * [Judy Tan](https://github.com/Judanator)
 * [Cho Yee Win Aung](https://github.com/choyeewinag)
 * [Jake Diorio](https://github.com/jdiorio2393)
