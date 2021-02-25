@@ -1,6 +1,6 @@
 {
   "name": "QLens",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Open source tool to extract metadata from your MongoDB database to generate GraphQL schemas, resolvers and server setup, enhancing developer's productivity.",
   "main": "app/electron.js",
   "homepage": "./",
