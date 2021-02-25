@@ -41,9 +41,6 @@ On the right side of the screen is where your life just got a whole lot easier. 
 ## 3. Download Schemas
 Click the Download Schemas button at the bottom of the code editor and the GraphQL schema code will download into a folder on your desktop. Drag the folder into your preferred code editor and voilà! Formatted GraphQL schemas right there in your code editor! It’s that easy! <br><br>
 
-## 4. GraphQL Playground
-Back in QLens, you can see your GraphQL schemas in action by clicking on the Playground button at the top right-hand side of the screen which will take you to GraphQL’s very own integrated development environment, GraphiQL where you can make queries and test your code. <br><br>
-
 ## How To Contribute
 We would love for you to test our application and submit any issues you encouter. Please feel free to fork your own repository to and submit your own pull requests.
 
