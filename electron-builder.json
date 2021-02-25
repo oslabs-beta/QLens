@@ -1,6 +1,6 @@
 {
   "appId": "com.QLens.app",
-  "afterSign": "notarize.js",
+  "afterSign": "",
   "publish": [
     {
     "provider": "github",
