@@ -5,8 +5,9 @@
 import React from 'react';
 import CheckBox from './CheckBox';
 import {ipcRenderer} from "electron";
+import ResetButton from './ResetButton';
 
-const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark, toggleBtn, toggleCheckbox}) => {
+const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark, toggleBtn, toggleCheckbox, resetBtn, resetButton}) => {
   const checkBoxComponents = [];
 
   for (let key in schemaData) {
@@ -17,11 +18,12 @@ const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark, toggleBtn
 
   return(
     <div className="dropDown">
-      <div>
+      <div className="menuItems">
       {checkBoxComponents}
       </div>
       <div className="addSchemaBtn" >
-        <button className={toggleBtn ? "AddSelectedSchemasButton": "disableAddSelected"} onClick={sendSchemas} disabled={!toggleBtn}><span>Add Selected Schemas</span></button>
+        <button className={toggleBtn ? "AddSelectedSchemasButton": "disableAddSelected"} onClick={sendSchemas} disabled={!toggleBtn}><span>Add Schemas</span></button>
+        <ResetButton resetBtn={resetBtn} />
       </div>
     </div>
   )

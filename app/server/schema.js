@@ -3,6 +3,9 @@ var cloneDeep = require('lodash.clonedeep');
 const MongoClient = require('mongodb').MongoClient;
 var pluralize = require('pluralize');
 const { ipcMain } = require('electron')
+const { graphqlHTTP } = require('express-graphql');
+const express = require('express');
+const app = express();
 
 const {
   GraphQLObjectType,
@@ -28,7 +31,7 @@ function addWhiteSpace(number) {
 ipcMain.on('selectedSchemas', (event, arg) => {
   const url = arg.uriId;
   const data = arg.selectedSchemas;
-  console.log(data);
+  console.log('IS THIS IT????', data);
   // Function for capitalization
   const capitalize = (s) => {
     if (typeof s !== 'string') return '';
@@ -143,7 +146,6 @@ ipcMain.on('selectedSchemas', (event, arg) => {
       const client = new MongoClient(url, { useUnifiedTopology: true });
       const regex = /\/(\w+)\?/g;
       const databaseName = url.match(regex);
-      console.log('DATABASSSSUUUUUU', url);
       const databaseString = databaseName
         .join('')
         .slice(1, databaseName.join('').length - 1);
@@ -204,7 +206,6 @@ ipcMain.on('selectedSchemas', (event, arg) => {
       .forEach((el) => {
         listOfProperties += `${el}: args.${el},|${addWhiteSpace(10)}`;
       });
-    // console.log('LIST OF PROPERTIESSSSSSSSSSSS===============', listOfProperties)
 
     mutationObjStr +=
       `   add${capitalize(property)} : {|` +
@@ -278,6 +279,15 @@ ipcMain.on('selectedSchemas', (event, arg) => {
     fields: rootQueryObj,
   });
 
+  const Schema = new GraphQLSchema({
+    query: RootQuery,
+  })
+
+  app.use(
+    '/graphql',
+    graphqlHTTP({ schema: Schema, graphiql: true })
+  );
+
   event.sender.send("returnedSchemas", {types: stringObj, queries: sendRootQueryObj, mutations: mutationSchema, mongoSchema: buildMongoStr})
 })
 
@@ -285,6 +295,8 @@ const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: rootQueryObj,
 });
+
+app.listen(3000, () => console.log('listening on port 3000'));
 
 module.exports = {
   converter,
