@@ -13,6 +13,7 @@ const fixPath = require('fix-path');
 const MongoClient = require('mongodb').MongoClient;
 // Executing terminal commands using JS
 const { exec } = require('child_process');
+const { autoUpdater } = require('electron-updater');
 
 // Add React extension for development
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
@@ -89,6 +90,9 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+  mainWindow.once('ready-to-show', () => {
+    autoUpdater.checkForUpdatesAndNotify();
+  });
 }
 
 // This method will be called when Electron has finished
@@ -121,7 +125,7 @@ if (!fs.existsSync(path.join(process.resourcesPath, "/schemafiles/"))) {
 }
 let testpath = path.join(process.resourcesPath, "/schemafiles/qlens.json")
 
-if (process.resourcesPath !== 'win32') fixPath()
+if (process.resourcesPath !== 'win32') fixPath();
 
 ipcMain.on('URI', (event, arg) => {
 
@@ -155,4 +159,15 @@ ipcMain.on('URI', (event, arg) => {
       event.sender.send('URI-reply', extractedSchemas)
     }
   })
+});
+
+autoUpdater.on('update-available', () => {
+  mainWindow.webContents.send('update_available');
+});
+autoUpdater.on('update-downloaded', () => {
+  mainWindow.webContents.send('update_downloaded');
+});
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
 });

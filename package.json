@@ -15,7 +15,11 @@
     "pack-mac": "npm run build && electron-builder -m",
     "dist": "electron-builder",
     "test": "jest --verbose",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "publish-mac": "npm run build && electron-builder -m --publish always",
+    "publish-win": "npm run build && electron-builder -w --publish always",
+    "publish-lin": "npm run build && electron-builder -l --publish always",
+    "deploy": "npm run build && electron-builder -mwl --publish always"
   },
   "repository": {
     "type": "git",
@@ -49,7 +53,7 @@
       "url": "https://github.com/stevenlabrie"
     }
   ],
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/stevenlabrie/QLens/issues"
   },

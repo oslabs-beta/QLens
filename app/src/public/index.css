@@ -442,3 +442,19 @@ input[type=checkbox]{
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
 }
+
+/* ================================ AUTO UPDATE ================================  */
+
+#notification {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 200px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.hidden {
+  display: none;
+}

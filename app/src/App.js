@@ -1,14 +1,15 @@
 // Import dependencies
 import React from "react";
 import Container from "./containers/Container";
+import AutoUpdate from "./Components/AutoUpdate";
 import "./public/index.css";
 
 // Create main App component
-const App = () => (
-    <div>
-      <Container />
-    </div>
-)
-
+const App = () => {
+  <div>
+    <Container />
+    <AutoUpdate />
+  </div>
+}
 // Export the App component
 export default App;
