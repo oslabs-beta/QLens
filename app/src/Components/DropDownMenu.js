@@ -2,25 +2,16 @@
 // research code mirror to hold the schemas
 // todo: create functionality so that when a checkbox is clicked, the schema appears on the page
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import CheckBox from './CheckBox';
+import {ipcRenderer} from "electron";
 
-
-const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark}) => {
-
-  const checkHandler = e => {
-    const schemaNames = Object.keys(schemaData);
-    const tools = props.schemaNames.clicked; //Array in parent component
-    const value = e.target.value; //Checkbox value
-
-    props.addCheckmark(value);
-  };
-
+const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark, toggleBtn, toggleCheckbox}) => {
   const checkBoxComponents = [];
 
   for (let key in schemaData) {
     checkBoxComponents.push(
-      <CheckBox name={key} key={`checkbox${key}`} clicked={addCheckmark} />
+      <CheckBox name={key} key={`dropdown${key}`} clicked={addCheckmark} toggleCheckbox={toggleCheckbox} />
     )
   }
 
@@ -30,13 +21,11 @@ const DropDownMenu = ({schemaData, uriData, sendSchemas, addCheckmark}) => {
       {checkBoxComponents}
       </div>
       <div className="addSchemaBtn" >
-        <button className="AddSelectedSchemasButton" onClick={sendSchemas}><span>Add Selected Schemas</span></button>
+        <button className={toggleBtn ? "AddSelectedSchemasButton": "disableAddSelected"} onClick={sendSchemas} disabled={!toggleBtn}><span>Add Selected Schemas</span></button>
       </div>
     </div>
   )
 }
-
-
 
 export default DropDownMenu;
 

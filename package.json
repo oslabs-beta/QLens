@@ -1,7 +1,7 @@
 {
   "name": "QLens",
   "version": "1.0.0",
-  "description": "",
+  "description": "Open source tool to extract metadata from your MongoDB database to generate GraphQL schemas, resolvers and server setup, enhancing developer's productivity.",
   "main": "app/electron.js",
   "homepage": "./",
   "scripts": {
@@ -28,8 +28,8 @@
   "keywords": [],
   "author": {
     "name": "Judy Tan, Jake Diorio, Steven LaBrie, Cho Yee Win Aung",
-    "email": "",
-    "url": ""
+    "email": "team@qlensapp.com",
+    "url": "http://qlensapp.com/"
   },
   "contributors": [
     {
@@ -94,6 +94,7 @@
     "electron-devtools-installer": "^3.1.1",
     "electron-fetch": "^1.7.3",
     "electron-is-dev": "^1.2.0",
+    "electron-updater": "^4.3.5",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "express": "^4.17.1",

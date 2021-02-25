@@ -87,6 +87,7 @@ const MongoSchemaIDE = ({schemaData, selectedSchemaData, graphQLSchema}) => {
           <CodeMirror
             value={_.isEmpty(graphQLSchema) ? `/*
 *** Input MongoDB Uri ***
+*** Press Enter ***
 *** Click Add Selected Schemas ***
 *** View GraphQL Schemas Here ***
 */` : combined}
