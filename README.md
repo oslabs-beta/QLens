@@ -64,7 +64,7 @@ We would love for you to test our application and submit any issues you encouter
 - Express
 - Graphiql
 - Graphql
-- lodash
+- Lodash
 - Babel
 - Webpack
 - Enzyme
